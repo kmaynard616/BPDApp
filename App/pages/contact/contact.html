@@ -1,0 +1,22 @@
+<ion-header>
+  <ion-navbar>
+    <ion-buttons start>
+      <button ion-button icon-only menuToggle>
+        <ion-icon name="menu"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-title>
+      Menu Example
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+</ion-content>
+
+<ion-footer>
+      <ion-item>
+        <ion-input type="text" [(ngModel)]="message"></ion-input>
+        <button ion-button large item-end icon-right (click)="sendmessage()"><ion-icon name="send"></ion-icon></button>
+      </ion-item>
+</ion-footer>
