@@ -1,0 +1,80 @@
+<!-- <ion-nav [root]="rootPage"></ion-nav> -->
+<!-- <ion-item>
+  <ion-icon name="document" item-start></ion-icon>
+  Create FI
+</ion-item> -->
+
+<ion-menu [content]="mycontent">
+  <ion-content padding>
+    <ion-list>
+      <ion-list-header>
+        District Subscriptions
+      </ion-list-header>
+      <ion-item>
+        <ion-label>Central</ion-label>
+        <ion-toggle value="Central"></ion-toggle>
+      </ion-item>
+      <ion-item>
+        <ion-label>Northern</ion-label>
+        <ion-toggle value="Northern"></ion-toggle>
+      </ion-item>
+      <ion-item>
+        <ion-label>Eastern</ion-label>
+        <ion-toggle value="Eastern"></ion-toggle>
+      </ion-item>
+      <ion-item>
+        <ion-label>Southern</ion-label>
+        <ion-toggle value="Southern"></ion-toggle>
+      </ion-item>
+      <ion-item>
+        <ion-label>Western</ion-label>
+        <ion-toggle value="western"></ion-toggle>
+      </ion-item>
+      <ion-item>
+        <ion-label>NorthEastern</ion-label>
+        <ion-toggle value="NorthEastern"></ion-toggle>
+      </ion-item>
+      <ion-item>
+        <ion-label>SouthEastern</ion-label>
+        <ion-toggle value="SouthEastern"></ion-toggle>
+      </ion-item>
+      <ion-item>
+        <ion-label>NorthWestern</ion-label>
+        <ion-toggle value="NorthWestern"></ion-toggle>
+      </ion-item>
+      <ion-item>
+        <ion-label>SouthWestern</ion-label>
+        <ion-toggle value="SouthWestern"></ion-toggle>
+      </ion-item>
+      <ion-list-header>
+        Other Subscriptions
+      </ion-list-header>
+      <ion-item>
+        <ion-label>Citywide Investigations</ion-label>
+        <ion-toggle value="CI"></ion-toggle>
+      </ion-item>
+      <ion-item>
+        <ion-label>Special Investigations Section</ion-label>
+        <ion-toggle value="SIS"></ion-toggle>
+      </ion-item>
+      <ion-item>
+        <ion-label>WATF</ion-label>
+        <ion-toggle value="WATF"></ion-toggle>
+      </ion-item>
+      <ion-item>
+        <ion-label>Operational Investigations</ion-label>
+        <ion-toggle value="OI"></ion-toggle>
+      </ion-item>
+      <ion-item>
+        <ion-label>Special Operations</ion-label>
+        <ion-toggle value="SO"></ion-toggle>
+      </ion-item>
+      <ion-item>
+        <ion-label>Watch Center</ion-label>
+        <ion-toggle value="WC"></ion-toggle>
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-menu>
+
+<ion-nav [root]="rootPage" #mycontent></ion-nav>
