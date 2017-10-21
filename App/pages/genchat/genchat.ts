@@ -1,21 +1,29 @@
+import { Injectable } from '@angular/core';
 import { Component } from '@angular/core';
+import { Http } from '@angular/http';
 import { NavController, NavParams } from 'ionic-angular';
-
-/**
- * Generated class for the GenchatPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+import { RemoteServiceProvider } from '../../providers/remote-service/remote-service';
+import 'rxjs/add/operator/map';
 
 @Component({
   selector: 'page-genchat',
   templateUrl: 'genchat.html',
 })
-export class GenchatPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+@Injectable()
+export class GenchatPage {
+  postList = [];
+
+  constructor(private remoteService : RemoteServiceProvider, public navCtrl: NavController, public navParams: NavParams) {
+    this.getPosts();
   }
+
+  getPosts(){
+        this.remoteService.getPosts().subscribe((data)=>{
+            this.postList = data;
+            console.log(data);
+        });
+    }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad GenchatPage');
