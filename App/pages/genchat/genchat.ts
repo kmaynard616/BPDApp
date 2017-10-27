@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Component } from '@angular/core';
 import { Http } from '@angular/http';
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams, ViewController } from 'ionic-angular';
 import { RemoteServiceProvider } from '../../providers/remote-service/remote-service';
 import 'rxjs/add/operator/map';
+import { ModalController } from 'ionic-angular';
+import { ModalPage } from '../modal/modal';
 
 @Component({
   selector: 'page-genchat',
@@ -14,8 +16,14 @@ import 'rxjs/add/operator/map';
 export class GenchatPage {
   postList = [];
 
-  constructor(private remoteService : RemoteServiceProvider, public navCtrl: NavController, public navParams: NavParams) {
-    this.getPosts();
+  constructor(public modalCtrl: ModalController, private remoteService : RemoteServiceProvider, public navCtrl: NavController, public navParams: NavParams) {
+    this.presentModal();
+    // this.getPosts();
+  }
+
+  presentModal() {
+    let modal = this.modalCtrl.create(ModalPage);
+    modal.present();
   }
 
   getPosts(){

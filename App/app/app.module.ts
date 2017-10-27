@@ -6,6 +6,8 @@ import { MyApp } from './app.component';
 import { TabsPage } from '../pages/tabs/tabs';
 import { GenchatPage } from '../pages/genchat/genchat';
 import { FichatPage } from '../pages/fichat/fichat';
+import { ModalPage } from '../pages/modal/modal';
+import { LandingPage } from '../pages/landing/landing';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -19,6 +21,8 @@ import { HttpModule } from '@angular/http';
     MyApp,
     GenchatPage,
     FichatPage,
+    ModalPage,
+    LandingPage,
     TabsPage
   ],
   imports: [
@@ -31,6 +35,8 @@ import { HttpModule } from '@angular/http';
     MyApp,
     GenchatPage,
     FichatPage,
+    ModalPage,
+    LandingPage,
     TabsPage
   ],
   providers: [
