@@ -1,22 +1,24 @@
 #FlaskService.py
 from flask import Flask,jsonify,abort,make_response,request, render_template,\
     json
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
 app.config['DEBUG'] = True
 
-@app.route('/')
+@app.route('/v1/')
 def home():
     print('This test the home')
     return (' home works')
 
-@app.route('/test', methods=['GET'])
+@app.route('/v1/test', methods=['GET'])
 def test():
 
     print('This is a successful test of /test')
     return 'Test works'
 
-@app.route('/users/<userName>')
+@app.route('/v1/users/<userName>')
 def users(userName):
 
     print('This is a successful test of /test %s', userName)
@@ -24,7 +26,7 @@ def users(userName):
 
 # to test the is end point via cmd line
 #curl -H "Content-type: application/json" -X POST http://127.0.0.1:5000/submitChatMessage -d '{"message":"Hello Data"}'
-@app.route('/submitChatMessage', methods = ['POST'])
+@app.route('/v1/submitChatMessage', methods = ['POST'])
 def api_message():
 
     if request.headers['Content-Type'] == 'text/plain':
