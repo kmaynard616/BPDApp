@@ -1,0 +1,23 @@
+page-landingmodal {
+  overflow-y: auto;
+}
+
+ion-content {
+  overflow-y: auto;
+}
+
+ion-card {
+    text-align: center;
+    overflow-y: auto;
+  }
+
+button {
+  min-width: 56px;
+}
+
+.shrunk-img {
+  height: 50% !important;
+  width: 50% !important;
+  margin: auto;
+  display: block;
+}

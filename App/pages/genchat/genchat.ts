@@ -17,7 +17,7 @@ export class GenchatPage {
   postList = [];
 
   constructor(public modalCtrl: ModalController, private remoteService : RemoteServiceProvider, public navCtrl: NavController, public navParams: NavParams) {
-    this.presentModal();
+    //this.presentModal();
     // this.getPosts();
   }
 
@@ -28,8 +28,8 @@ export class GenchatPage {
 
   getPosts(){
         this.remoteService.getPosts().subscribe((data)=>{
-            this.postList = data;
-            console.log(data);
+            //this.postList = data;
+            //console.log(data);
         });
     }
 

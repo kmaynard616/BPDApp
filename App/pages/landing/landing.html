@@ -19,66 +19,66 @@
     </ion-list-header>
     <ion-item>
       <ion-label>Central</ion-label>
-      <ion-toggle value="Central"></ion-toggle>
+      <ion-toggle class="clstoggle" [disabled]="isenabled1" [(ngModel)]="toggle1" id="central" (ionChange)="updateItem('central')"></ion-toggle>
     </ion-item>
     <ion-item>
       <ion-label>Northern</ion-label>
-      <ion-toggle value="Northern"></ion-toggle>
+      <ion-toggle class="clstoggle" [disabled]="isenabled2" [(ngModel)]="toggle2" id="northern" (ionChange)="updateItem('northern')"></ion-toggle>
     </ion-item>
     <ion-item>
       <ion-label>Eastern</ion-label>
-      <ion-toggle value="Eastern"></ion-toggle>
+      <ion-toggle class="clstoggle" [disabled]="isenabled3" [(ngModel)]="toggle3" id="eastern" (ionChange)="updateItem('eastern')"></ion-toggle>
     </ion-item>
     <ion-item>
       <ion-label>Southern</ion-label>
-      <ion-toggle value="Southern"></ion-toggle>
+      <ion-toggle class="clstoggle" [disabled]="isenabled4" [(ngModel)]="toggle4" id="southern" (ionChange)="updateItem('southern')"></ion-toggle>
     </ion-item>
     <ion-item>
       <ion-label>Western</ion-label>
-      <ion-toggle value="western"></ion-toggle>
+      <ion-toggle class="clstoggle" [disabled]="isenabled5" [(ngModel)]="toggle5" id="western" (ionChange)="updateItem('western')"></ion-toggle>
     </ion-item>
     <ion-item>
       <ion-label>NorthEastern</ion-label>
-      <ion-toggle value="NorthEastern"></ion-toggle>
+      <ion-toggle class="clstoggle" [disabled]="isenabled6" [(ngModel)]="toggle6" id="northeastern" (ionChange)="updateItem('northeastern')"></ion-toggle>
     </ion-item>
     <ion-item>
       <ion-label>SouthEastern</ion-label>
-      <ion-toggle value="SouthEastern"></ion-toggle>
+      <ion-toggle class="clstoggle" [disabled]="isenabled7" [(ngModel)]="toggle7" id="southeastern" (ionChange)="updateItem('southeastern')"></ion-toggle>
     </ion-item>
     <ion-item>
       <ion-label>NorthWestern</ion-label>
-      <ion-toggle value="NorthWestern"></ion-toggle>
+      <ion-toggle class="clstoggle" [disabled]="isenabled8" [(ngModel)]="toggle8" id="northwestern" (ionChange)="updateItem('northwestern')"></ion-toggle>
     </ion-item>
     <ion-item>
       <ion-label>SouthWestern</ion-label>
-      <ion-toggle value="SouthWestern"></ion-toggle>
+      <ion-toggle class="clstoggle" [disabled]="isenabled9" [(ngModel)]="toggle9" id="southwestern" (ionChange)="updateItem('southwestern')"></ion-toggle>
     </ion-item>
     <ion-list-header>
       Other Subscriptions
     </ion-list-header>
     <ion-item>
       <ion-label>Citywide Investigations</ion-label>
-      <ion-toggle value="CI"></ion-toggle>
+      <ion-toggle class="clstoggle" [disabled]="isenabled10" [(ngModel)]="toggle10" id="ci" (ionChange)="updateItem('ci')"></ion-toggle>
     </ion-item>
     <ion-item>
       <ion-label>Special Investigations Section</ion-label>
-      <ion-toggle value="SIS"></ion-toggle>
+      <ion-toggle class="clstoggle" [disabled]="isenabled11" [(ngModel)]="toggle11" id="sis" (ionChange)="updateItem('sis')"></ion-toggle>
     </ion-item>
     <ion-item>
       <ion-label>WATF</ion-label>
-      <ion-toggle value="WATF"></ion-toggle>
+      <ion-toggle class="clstoggle" [disabled]="isenabled12" [(ngModel)]="toggle12" id="watf" (ionChange)="updateItem('watf')"></ion-toggle>
     </ion-item>
     <ion-item>
       <ion-label>Operational Investigations</ion-label>
-      <ion-toggle value="OI"></ion-toggle>
+      <ion-toggle class="clstoggle" [disabled]="isenabled13" [(ngModel)]="toggle13" id="oi" (ionChange)="updateItem('oi')"></ion-toggle>
     </ion-item>
     <ion-item>
       <ion-label>Special Operations</ion-label>
-      <ion-toggle value="SO"></ion-toggle>
+      <ion-toggle class="clstoggle" [disabled]="isenabled14" [(ngModel)]="toggle14" id="so" (ionChange)="updateItem('so')"></ion-toggle>
     </ion-item>
     <ion-item>
       <ion-label>Watch Center</ion-label>
-      <ion-toggle value="WC"></ion-toggle>
+      <ion-toggle class="clstoggle" [disabled]="isenabled15" [(ngModel)]="toggle15" id="wc" (ionChange)="updateItem('wc')"></ion-toggle>
     </ion-item>
   </ion-list>
 </ion-content>
@@ -86,7 +86,7 @@
 <ion-footer>
   <ion-toolbar color="white">
   <div style="text-align: center;">
-      <button ion-button>Save Selection</button>
+      <button ion-button (click)="gotochat()">Save Selection</button>
     </div>
   </ion-toolbar>
 </ion-footer>

@@ -3,11 +3,10 @@ import { BrowserModule } from '@angular/platform-browser';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
 
-import { TabsPage } from '../pages/tabs/tabs';
 import { GenchatPage } from '../pages/genchat/genchat';
-import { FichatPage } from '../pages/fichat/fichat';
 import { ModalPage } from '../pages/modal/modal';
 import { LandingPage } from '../pages/landing/landing';
+import { LandingmodalPage } from '../pages/landingmodal/landingmodal';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -20,10 +19,9 @@ import { HttpModule } from '@angular/http';
   declarations: [
     MyApp,
     GenchatPage,
-    FichatPage,
     ModalPage,
     LandingPage,
-    TabsPage
+    LandingmodalPage
   ],
   imports: [
     BrowserModule,
@@ -34,10 +32,9 @@ import { HttpModule } from '@angular/http';
   entryComponents: [
     MyApp,
     GenchatPage,
-    FichatPage,
     ModalPage,
     LandingPage,
-    TabsPage
+    LandingmodalPage
   ],
   providers: [
     StatusBar,
