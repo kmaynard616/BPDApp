@@ -15,6 +15,13 @@ public class AppService {
 		return Response.status(200).entity(output).build();
 				
 	}
+	@POST
+	@Path("/updateUserSettings")
+	public Response updateUserSettings(String data){
+		String output = "Post data is " + data;
+		return Response.status(200).entity(output).build();
+				
+	}
 	
 	@POST
 	@Path("/submitMessage")
