@@ -18,7 +18,7 @@ export class GenchatPage {
 
   constructor(public modalCtrl: ModalController, private remoteService : RemoteServiceProvider, public navCtrl: NavController, public navParams: NavParams) {
     //this.presentModal();
-    // this.getPosts();
+
   }
 
   presentModal() {
@@ -29,12 +29,14 @@ export class GenchatPage {
   getPosts(){
         this.remoteService.getPosts().subscribe((data)=>{
             //this.postList = data;
-            //console.log(data);
+            console.log(data);
         });
     }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad GenchatPage');
+    this.getPosts();
+    
   }
 
 }
