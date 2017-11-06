@@ -86,7 +86,7 @@
 <ion-footer>
   <ion-toolbar color="white">
   <div style="text-align: center;">
-      <button ion-button (click)="gotochat()">Save Selection</button>
+      <button ion-button [disabled]="isbuttonenabled" (click)="gotochat()">Save Selection</button><button ion-button (click)="cancelbtn()">Cancel</button>
     </div>
   </ion-toolbar>
 </ion-footer>
