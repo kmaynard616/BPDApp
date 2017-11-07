@@ -1,0 +1,20 @@
+<ion-content>
+  <ion-card>
+    <img class="shrunk-img" src="https://maps.baltimorepolice.org/flexviewer/chatpics/Max.jpg"/>
+    <ion-card-content>
+      <ion-card-title>
+        {{firstName}} {{lastName}}
+        </ion-card-title>
+      <p>
+        You are currently a member of the <b>{{group1}}</b>{{strand}}<b>{{group2}}</b> chat {{strgroup}}.
+        <br />
+        <br />
+        {{strgroupmsg}}
+      </p>
+      <br />
+      <button ion-button (click)="gotochat()">Yes</button><button ion-button (click)="dismiss()">No</button>
+
+      <!-- <button id="x" (click)="changeColor()">Click Me!</button> -->
+    </ion-card-content>
+  </ion-card>
+</ion-content>
