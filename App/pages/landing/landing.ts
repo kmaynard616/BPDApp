@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams, Platform } from 'ionic-angular';
 import { ModalController } from 'ionic-angular';
 import { LandingmodalPage } from '../landingmodal/landingmodal';
 import { GenchatPage } from '../genchat/genchat';
@@ -48,12 +48,15 @@ export class LandingPage {
   isenabled13:boolean=false;
   isenabled14:boolean=false;
   isenabled15:boolean=false;
+  isbuttonenabled:boolean=true;
 
   grpCt: number = 0;  // Counter for current selected groups
   grp1: string = '';  // Variable for the initial groups name
   grp2: string = '';  // Variable for the second groups name
 
-  constructor(public modalCtrl: ModalController, public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public modalCtrl: ModalController, public navCtrl: NavController, public navParams: NavParams, public platform: Platform) {
+    this.platform = platform;
+
     // We need to go down one of three paths
     // 1. The user has never been in the app before
     // 2. The user is returning with 24 hours
@@ -100,6 +103,15 @@ export class LandingPage {
 
   }
 
+  // This function will close the app when the cancel is pressed on the load screen
+  cancelbtn() {
+    // Please note that this command is not supported in the browser.
+    // This command will throw an error. However, when run on the phone
+    // this command will close the app. Also, this may change for Sprint 2.
+    navigator['app'].exitApp();
+  }
+
+  // This function will load the toggled list for user selection.
   presentModal() {
     let modal = this.modalCtrl.create(LandingmodalPage);
     modal.present();
@@ -124,6 +136,7 @@ export class LandingPage {
         // Store the item and increment the count
         this.grp1 = item;
         this.grpCt += 1;
+        this.isbuttonenabled = false;
       }
       else
       {
@@ -183,9 +196,17 @@ export class LandingPage {
       this.isenabled13 = false;
       this.isenabled14 = false;
       this.isenabled15 = false;
+
+      // Check to see if there are any groups selected
+      if (this.grpCt == 0)
+      {
+          // There aren't any groups, disable the buttons
+          this.isbuttonenabled = true;
+      }
     }
   }
 
+  // This function will get the values of the toggles
   gettogglevalue(objName) {
     if (objName == 'central')
     {
