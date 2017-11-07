@@ -31,12 +31,12 @@ public class AppService {
 		User output = bpdDAO.getUser(user);
 		
 		JSONObject jo = new JSONObject();
-		jo.append("firstName", output.getFirst_name());
-		jo.append("lastName", output.getLast_name());
+		jo.put("firstName", output.getFirst_name());
+		jo.put("lastName", output.getLast_name());
 		JSONArray subLocArray = new JSONArray(output.getSubscription_location());
 		JSONArray locDescArray = new JSONArray(output.getSubscription_loc_desc());
-		jo.append("subscriptionLocation", subLocArray);
-		jo.append("locDesc", locDescArray);
+		jo.put("subscriptionLocation", subLocArray);
+		jo.put("locDesc", locDescArray);
 		
 		return Response.status(200).entity(jo.toString()).build();
 				
