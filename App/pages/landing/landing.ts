@@ -3,12 +3,17 @@ import { NavController, NavParams, Platform } from 'ionic-angular';
 import { ModalController } from 'ionic-angular';
 import { LandingmodalPage } from '../landingmodal/landingmodal';
 import { GenchatPage } from '../genchat/genchat';
+import { RemoteServiceProvider } from '../../providers/remote-service/remote-service';
+import 'rxjs/add/operator/map';
 
 @Component({
   selector: 'page-landing',
   templateUrl: 'landing.html'
 })
 export class LandingPage {
+
+  items: object;
+  strjson: string = '';
 
   // Value to tell whether or not something was toggled on or off
   toggle: boolean = true;
@@ -50,13 +55,26 @@ export class LandingPage {
   isenabled15:boolean=false;
   isbuttonenabled:boolean=true;
 
+  firstName: string = '';       // first name of the user
+  lastName: string = '';        // last name of the user
   grpCt: number = 0;  // Counter for current selected groups
   grp1: string = '';  // Variable for the initial groups name
   grp2: string = '';  // Variable for the second groups name
 
-  constructor(public modalCtrl: ModalController, public navCtrl: NavController, public navParams: NavParams, public platform: Platform) {
+  constructor(public modalCtrl: ModalController, public navCtrl: NavController,
+              public navParams: NavParams, public platform: Platform,
+              private remoteService : RemoteServiceProvider) {
+    // Set the platform
     this.platform = platform;
 
+    this.getUserInfo('2');
+  }
+
+  ionViewDidLoad() {
+    console.log('ionViewDidLoad LandingPage');
+  }
+
+  loadScreen() {
     // We need to go down one of three paths
     // 1. The user has never been in the app before
     // 2. The user is returning with 24 hours
@@ -65,13 +83,16 @@ export class LandingPage {
     now.setDate(now.getDate() - 1);
 
     //var lastEntry = null;
-    //var lastEntry = new Date('2017-10-28T12:30:00');
-    var lastEntry = new Date('2017-10-27T12:30:00');
+    var lastEntry = new Date('2017-11-06T12:30:00');
+    //var lastEntry = new Date('2017-11-05T12:30:00');
 
     if (lastEntry == null)
     {
         // This is scenario #1
         // Do nothing, we need to show the subscriptions
+        this.grpCt = 0;
+        this.grp1 = '';
+        this.grp2 = '';
     }
     else if (lastEntry >= now)
     {
@@ -87,9 +108,43 @@ export class LandingPage {
     }
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad LandingPage');
-  }
+  getUserInfo(userId: string){
+        this.remoteService.getUserInfo(userId).subscribe((data)=>{
+            // Log the data
+            console.log(data);
+
+            if ((<any>data).length != 0)
+            {
+              // Deserialize the JSON
+              this.items = data.json();
+              this.strjson = (<any>data)._body;
+              //var items = data.json();
+              // Store the data into the variables
+
+              this.firstName = (<any>this.items).firstName;
+              this.lastName = (<any>this.items).lastName;
+
+              // Check to see how many groups the user is subscribed to
+              if ((<any>this.items).subscriptionLocation.length == 1)
+              {
+                // The user is only subscribed to one group
+                // Store the name of the first group
+                this.grp1 = (<any>this.items).subscriptionLocation[0];
+                this.grpCt = 1;
+              }
+              else if ((<any>this.items).subscriptionLocation.length == 2)
+              {
+                // The user is subscribed to two groups
+                // Store the name of those groups
+                this.grp1 = (<any>this.items).subscriptionLocation[0];
+                this.grp2 = (<any>this.items).subscriptionLocation[1];
+                this.grpCt = 2;
+              }
+            }
+
+            this.loadScreen();
+        });
+    }
 
   // The user has opted to use the previosly selected chat groups
   // and would like to navigate to the chat.
@@ -113,8 +168,10 @@ export class LandingPage {
 
   // This function will load the toggled list for user selection.
   presentModal() {
-    let modal = this.modalCtrl.create(LandingmodalPage);
-    modal.present();
+    //let modal = this.modalCtrl.create(LandingmodalPage, {strjson: this.strjson});
+    //modal.present();
+    let modal = this.modalCtrl.create(LandingmodalPage, {"strjson": this.strjson});
+    modal.present(modal);
   }
 
   // This function will keep track of the groups that have been selected

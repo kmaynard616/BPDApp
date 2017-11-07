@@ -13,11 +13,11 @@ export class RemoteServiceProvider {
     console.log('Hello RemoteServiceProvider Provider');
   }
 
-  getPosts() {
+  getUserInfo(userId: string) {
     // return  this.http.get(this.getAPIURL + '/test')
     //         .do((res : Response ) => console.log(res.json())
     //         .map((res : Response ) => res.json())
     //         .catch(error => console.log(error));
-    return this.http.get(this.getAPIURL + '/getUserSettings/kevin').do(function(data) { console.log('data ', data) });
+    return this.http.get(this.getAPIURL + '/getUserInfo/' + userId).do(function(data) { console.log('data ', data) });
   }
 }
