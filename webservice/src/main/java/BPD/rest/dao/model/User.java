@@ -1,6 +1,7 @@
 package BPD.rest.dao.model;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 public class User {
 
@@ -26,7 +27,13 @@ public class User {
 		return last_access_date;
 	}
 	public void setLast_access_date(String last_access_date) {
-		this.last_access_date = last_access_date;
+		if(last_access_date == null){
+			Date currentDate = new Date();
+			this.last_access_date = currentDate.toString();
+		} else {
+			this.last_access_date = last_access_date;
+		}
+		
 	}
 	public ArrayList<String> getSubscription_location() {
 		return subscription_location;

@@ -26,7 +26,7 @@ public class BpdDaoImpl implements BpdDao{
 	}
 
 	public User getUser(int userId) {
-		System.out.println("Please work XXXXXXXXXX");
+		System.out.println("Getting user info");
 //		String sql = "SELECT AU.FIRST_NAME, AU.LAST_NAME, "+ //UD.LAST_ACCESS_DATE," +
 //					 "SL.SUBSCRIPTION_LOCATION, SL.SUBSCRIPTION_LOC_DESC " +
 //					 "FROM APP_USERS AU" +
@@ -37,7 +37,7 @@ public class BpdDaoImpl implements BpdDao{
 //					 "(UD.SECONDARY_SUB_LOCATION_ID = SL.SUBSCRIPTION_LOCATION_ID)) " +
 //					 "WHERE (AU.USER_ID = 1) " +
 //					 "ORDER BY SL.SUBSCRIPTION_LOCATION_ID ASC;";
-		String sql = "SELECT AU.FIRST_NAME, AU.LAST_NAME, SL.SUBSCRIPTION_LOCATION, SL.SUBSCRIPTION_LOC_DESC FROM APP_USERS AU JOIN USER_DEVICES UD ON (AU.USER_ID = UD.USER_ID) JOIN SUBSCRIPTION_LOCATIONS SL ON ((UD.PRIMARY_SUB_LOCATION_ID = SL.SUBSCRIPTION_LOCATION_ID) OR (UD.SECONDARY_SUB_LOCATION_ID = SL.SUBSCRIPTION_LOCATION_ID)) WHERE (AU.USER_ID = ?) ORDER BY SL.SUBSCRIPTION_LOCATION_ID ASC";
+		String sql = "SELECT AU.FIRST_NAME, AU.LAST_NAME, UD.LAST_ACCESS_DATE, SL.SUBSCRIPTION_LOCATION, SL.SUBSCRIPTION_LOC_DESC FROM APP_USERS AU JOIN USER_DEVICES UD ON (AU.USER_ID = UD.USER_ID) JOIN SUBSCRIPTION_LOCATIONS SL ON ((UD.PRIMARY_SUB_LOCATION_ID = SL.SUBSCRIPTION_LOCATION_ID) OR (UD.SECONDARY_SUB_LOCATION_ID = SL.SUBSCRIPTION_LOCATION_ID)) WHERE (AU.USER_ID = ?) ORDER BY SL.SUBSCRIPTION_LOCATION_ID ASC";
 		Connection conn = null;
 		
 		try {
@@ -53,7 +53,7 @@ public class BpdDaoImpl implements BpdDao{
 			
 				user.setFirst_name(rs.getString("FIRST_NAME"));
 				user.setLast_name(rs.getString("LAST_NAME"));
-				//user.setLast_access_date(rs.getString("LAST_ACCESS_DATE"));
+				user.setLast_access_date(rs.getString("LAST_ACCESS_DATE"));
 				subLocation.add(rs.getString("SUBSCRIPTION_LOCATION"));
 				locationDesc.add(rs.getString("SUBSCRIPTION_LOC_DESC"));
 				
@@ -76,29 +76,37 @@ public class BpdDaoImpl implements BpdDao{
 	return new User();
 	}
 	public void updateUserDevices(int userId) {
-		String sql = "UPDATE USER_DEVICES" +
-	    "SET LAST_ACCESS_DATE = (SELECT SYSDATE FROM DUAL)" +
-	    "WHERE (USER_DEVICES.USER_ID = ?);";
-		
+		String sql = "UPDATE USER_DEVICES SET LAST_ACCESS_DATE = (SELECT SYSDATE FROM DUAL) WHERE (USER_DEVICES.USER_ID = ?)";
+		System.out.println("updating user devices");
 		Connection conn = null;
 
 		try {
+			System.out.println("execute 1");
 			conn = dataSource.getConnection();
+			System.out.println("execute2 ");
 			PreparedStatement ps = conn.prepareStatement(sql);
+			System.out.println("execute3");
 			ps.setInt(1, userId);
-			ps.executeUpdate();
+			System.out.println("execute4");
+			int update = ps.executeUpdate();
+			System.out.println("execute5 xxxx " + update);
 			ps.close();
-
+			System.out.println("updating user devices");
 		} catch (SQLException e) {
 			System.out.println("Sql exception updateUserDevices : " + e.getMessage());
 
 		} finally {
+			System.out.println("XXXXX impl");
 			if (conn != null) {
+				System.out.println("XXXXX impl2");
 				try {
+					System.out.println("XXXXX impl3");
 					conn.close();
-				} catch (SQLException e) {}
+				} catch (SQLException e) {System.out.println("XXXXX impl4");}
 			}
+			System.out.println("XXXXX impl5");
 		}
+		System.out.println("XXXXX impl6");
 		
 	}
 
