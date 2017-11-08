@@ -44,10 +44,8 @@ public class AppService {
 	@POST
 	@Path("/updateUserSettings/{userId}")
 	public Response updateUserSettings(@PathParam("userId") int userId){
-		System.out.println("XXXXXXX");
 		String output = "userSettings updated for user id : " + userId;
 		bpdDAO.updateUserDevices(userId);
-		System.out.println("XXXXXXX2");
 		
 		return Response.status(200).entity(output).build();
 				

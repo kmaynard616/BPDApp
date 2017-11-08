@@ -81,32 +81,23 @@ public class BpdDaoImpl implements BpdDao{
 		Connection conn = null;
 
 		try {
-			System.out.println("execute 1");
 			conn = dataSource.getConnection();
-			System.out.println("execute2 ");
 			PreparedStatement ps = conn.prepareStatement(sql);
-			System.out.println("execute3");
 			ps.setInt(1, userId);
-			System.out.println("execute4");
 			int update = ps.executeUpdate();
-			System.out.println("execute5 xxxx " + update);
 			ps.close();
 			System.out.println("updating user devices");
 		} catch (SQLException e) {
 			System.out.println("Sql exception updateUserDevices : " + e.getMessage());
 
 		} finally {
-			System.out.println("XXXXX impl");
 			if (conn != null) {
-				System.out.println("XXXXX impl2");
 				try {
-					System.out.println("XXXXX impl3");
 					conn.close();
-				} catch (SQLException e) {System.out.println("XXXXX impl4");}
+				} catch (SQLException e) {System.out.println("exception : " + e.getMessage());}
 			}
-			System.out.println("XXXXX impl5");
 		}
-		System.out.println("XXXXX impl6");
+		
 		
 	}
 
