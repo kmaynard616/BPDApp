@@ -1,9 +1,12 @@
 package BPD.rest;
 
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.json.JSONArray;
@@ -15,6 +18,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import BPD.rest.dao.BpdDao;
 import BPD.rest.dao.model.User;
+import BPD.rest.dao.model.UserSelection;
 
 @Path("/bpd")
 public class AppService {
@@ -42,10 +46,12 @@ public class AppService {
 				
 	}
 	@POST
-	@Path("/updateUserSettings/{userId}")
-	public Response updateUserSettings(@PathParam("userId") int userId){
-		String output = "userSettings updated for user id : " + userId;
-		bpdDAO.updateUserDevices(userId);
+    @Consumes({MediaType.APPLICATION_JSON})
+    @Produces({MediaType.TEXT_PLAIN})
+	@Path("/updateUserSettings")
+	public Response updateUserSettings(UserSelection userSelection){
+		String output = "userSettings updated for user id : " + userSelection.getUserId();
+		bpdDAO.updateUserDevices(userSelection);
 		
 		return Response.status(200).entity(output).build();
 				

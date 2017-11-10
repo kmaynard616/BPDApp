@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import BPD.rest.dao.model.User;
+import BPD.rest.dao.model.UserSelection;
 
 public class BpdDaoImpl implements BpdDao{
 	private static final Logger logger = LoggerFactory.getLogger(BpdDaoImpl.class);
@@ -75,18 +76,23 @@ public class BpdDaoImpl implements BpdDao{
 		}
 	return new User();
 	}
-	public void updateUserDevices(int userId) {
-		String sql = "UPDATE USER_DEVICES SET LAST_ACCESS_DATE = (SELECT SYSDATE FROM DUAL) WHERE (USER_DEVICES.USER_ID = ?)";
+	public void updateUserDevices(UserSelection selections) {
+		String sql = "UPDATE USER_DEVICES SET LAST_ACCESS_DATE = (SELECT SYSDATE FROM DUAL), PRIMARY_SUB_LOCATION_ID = ?, SECONDARY_SUB_LOCATION_ID = ? WHERE (USER_DEVICES.USER_ID = ?)";
+		//String sql = "UPDATE USER_DEVICES SET LAST_ACCESS_DATE = (SELECT SYSDATE FROM DUAL), PRIMARY_SUB_LOCATION_ID = 2, SECONDARY_SUB_LOCATION_ID = 3  WHERE (USER_DEVICES.USER_ID = 1);
 		System.out.println("updating user devices");
 		Connection conn = null;
 
 		try {
 			conn = dataSource.getConnection();
 			PreparedStatement ps = conn.prepareStatement(sql);
-			ps.setInt(1, userId);
+			ps.setInt(1, selections.getPrimaryLocationId());
+			ps.setInt(2, selections.getSecondaryLocationId());
+			ps.setInt(3, selections.getUserId());
 			int update = ps.executeUpdate();
 			ps.close();
-			System.out.println("updating user devices");
+			System.out.println("updating user devices for user " + selections.getUserId());
+			System.out.println("updateing primary location " + selections.getPrimaryLocationId());
+			System.out.println("updateing seondary location " + selections.getSecondaryLocationId());
 		} catch (SQLException e) {
 			System.out.println("Sql exception updateUserDevices : " + e.getMessage());
 
