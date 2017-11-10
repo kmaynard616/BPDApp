@@ -26,17 +26,17 @@ export class GenchatPage {
     modal.present();
   }
 
-  getPosts(){
-        this.remoteService.getPosts().subscribe((data)=>{
-            //this.postList = data;
-            console.log(data);
-        });
-    }
+  // getPosts(){
+  //       this.remoteService.getPosts().subscribe((data)=>{
+  //           //this.postList = data;
+  //           console.log(data);
+  //       });
+  //   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad GenchatPage');
-    this.getPosts();
-    
+    // this.getPosts();
+
   }
 
 }
