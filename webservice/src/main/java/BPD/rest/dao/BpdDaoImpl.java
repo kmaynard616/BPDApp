@@ -27,7 +27,7 @@ public class BpdDaoImpl implements BpdDao{
 	}
 
 	public User getUser(int userId) {
-		System.out.println("Getting user info");
+		logger.debug("Getting user info");
 //		String sql = "SELECT AU.FIRST_NAME, AU.LAST_NAME, "+ //UD.LAST_ACCESS_DATE," +
 //					 "SL.SUBSCRIPTION_LOCATION, SL.SUBSCRIPTION_LOC_DESC " +
 //					 "FROM APP_USERS AU" +
@@ -65,7 +65,7 @@ public class BpdDaoImpl implements BpdDao{
 			ps.close();
 			return user;
 		} catch (SQLException e) {
-			System.out.println("SqlException getUser : " + e.getMessage());
+			logger.debug("SqlException getUser : " + e.getMessage());
 			e.printStackTrace();
 		} finally {
 			if (conn != null) {
@@ -78,8 +78,8 @@ public class BpdDaoImpl implements BpdDao{
 	}
 	public void updateUserDevices(UserSelection selections) {
 		String sql = "UPDATE USER_DEVICES SET LAST_ACCESS_DATE = (SELECT SYSDATE FROM DUAL), PRIMARY_SUB_LOCATION_ID = ?, SECONDARY_SUB_LOCATION_ID = ? WHERE (USER_DEVICES.USER_ID = ?)";
-		//String sql = "UPDATE USER_DEVICES SET LAST_ACCESS_DATE = (SELECT SYSDATE FROM DUAL), PRIMARY_SUB_LOCATION_ID = 2, SECONDARY_SUB_LOCATION_ID = 3  WHERE (USER_DEVICES.USER_ID = 1);
-		System.out.println("updating user devices");
+		
+		logger.debug("updating user devices");
 		Connection conn = null;
 
 		try {
@@ -90,17 +90,17 @@ public class BpdDaoImpl implements BpdDao{
 			ps.setInt(3, selections.getUserId());
 			int update = ps.executeUpdate();
 			ps.close();
-			System.out.println("updating user devices for user " + selections.getUserId());
-			System.out.println("updateing primary location " + selections.getPrimaryLocationId());
-			System.out.println("updateing seondary location " + selections.getSecondaryLocationId());
+			logger.debug("updating user devices for user " + selections.getUserId());
+			logger.debug("updateing primary location " + selections.getPrimaryLocationId());
+			logger.debug("updateing seondary location " + selections.getSecondaryLocationId());
 		} catch (SQLException e) {
-			System.out.println("Sql exception updateUserDevices : " + e.getMessage());
+			logger.debug("Sql exception updateUserDevices : " + e.getMessage());
 
 		} finally {
 			if (conn != null) {
 				try {
 					conn.close();
-				} catch (SQLException e) {System.out.println("exception : " + e.getMessage());}
+				} catch (SQLException e) {logger.debug("exception : " + e.getMessage());}
 			}
 		}
 		
