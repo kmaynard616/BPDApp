@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { App, NavController, NavParams, ViewController } from 'ionic-angular';
 import { GenchatPage } from '../genchat/genchat';
+import { RemoteServiceProvider } from '../../providers/remote-service/remote-service';
 
 @Component({
   selector: 'page-landingmodal',
@@ -18,7 +19,9 @@ export class LandingmodalPage {
   strgroupmsg: string = '';     // variable for the second set of text for the groups
 
   // Constructor for the class, this must have all of the controllers necessary
-  constructor(public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, public app: App) {
+  constructor(public navCtrl: NavController, public navParams: NavParams,
+              public viewCtrl: ViewController, public app: App,
+              private remoteService : RemoteServiceProvider) {
     this.navCtrl = navCtrl;
     this.strjson = this.navParams.get('strjson');
     console.log(this.strjson);
@@ -35,6 +38,7 @@ export class LandingmodalPage {
   }
 
   // This function will load the verbiage of the card in the modal screen
+
   loadUserContents() {
     // Get the data back from the web service
     // Set the name
@@ -71,14 +75,17 @@ export class LandingmodalPage {
   // The user would like to choose new chat groups. As this was opened modally
   // over top of the chat group selection, we will go to the chat group selection
   // screen before entering the chat.
+
   dismiss() {
     this.viewCtrl.dismiss();
   }
 
   // The user has opted to use the previosly selected chat groups
   // and would like to navigate to the chat.
+
   gotochat() {
     // 1. Record the timestamp and grop selections
+
 
     // 2. Navigate to the chat
     this.viewCtrl.dismiss();
