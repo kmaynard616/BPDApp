@@ -37,6 +37,7 @@ public class AppService {
 		JSONObject jo = new JSONObject();
 		jo.put("firstName", output.getFirst_name());
 		jo.put("lastName", output.getLast_name());
+		jo.put("lastAccess", output.getLast_access_date());
 		JSONArray subLocArray = new JSONArray(output.getSubscription_location());
 		JSONArray locDescArray = new JSONArray(output.getSubscription_loc_desc());
 		jo.put("subscriptionLocation", subLocArray);

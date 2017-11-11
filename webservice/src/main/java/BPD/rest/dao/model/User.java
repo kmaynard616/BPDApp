@@ -29,7 +29,7 @@ public class User {
 	public void setLast_access_date(String last_access_date) {
 		if(last_access_date == null){
 			Date currentDate = new Date();
-			this.last_access_date = currentDate.toString();
+			this.last_access_date = "";
 		} else {
 			this.last_access_date = last_access_date;
 		}
