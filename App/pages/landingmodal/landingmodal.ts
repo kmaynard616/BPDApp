@@ -17,6 +17,9 @@ export class LandingmodalPage {
   strand: string = '';          // variable for "and" if there are two groups
   strgroup: string = '';        // variable for the verbiage of the groups
   strgroupmsg: string = '';     // variable for the second set of text for the groups
+  grp1num: string = '';
+  grp2num: string = '';
+  userId: string = '';
 
   // Constructor for the class, this must have all of the controllers necessary
   constructor(public navCtrl: NavController, public navParams: NavParams,
@@ -48,6 +51,7 @@ export class LandingmodalPage {
       {
         this.firstName = (<any>this.items).firstName;
         this.lastName = (<any>this.items).lastName;
+        this.userId= (<any>this.items).userId;
 
         if ((<any>this.items).subscriptionLocation.length == 1)
         {
@@ -85,18 +89,104 @@ export class LandingmodalPage {
 
   gotochat() {
     // 1. Record the timestamp and grop selections
-
+    this.updateUserInfo();
 
     // 2. Navigate to the chat
-    this.viewCtrl.dismiss();
-    this.navCtrl.setRoot(GenchatPage);
-    this.app.getRootNav().push(GenchatPage);
+    //this.viewCtrl.dismiss();
+    //this.navCtrl.setRoot(GenchatPage);
+    //this.app.getRootNav().push(GenchatPage);
+    // this.zone.run(() => {
+    //   this.navCtrl.setRoot(GenchatPage);
+    // });
 
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad LandingmodalPage');
     this.loadUserContents();
+  }
+
+  updateUserInfo() {
+    if (this.group1 != '')
+    {
+      this.grp1num = this.getgrpnum(this.group1);
+    }
+
+    if (this.group2 != '')
+    {
+      this.grp2num = this.getgrpnum(this.group2);
+    }
+
+    // 1. Record the timestamp and grop selections
+    this.remoteService.updateUserSubscriptions(this.userId, this.grp1num, this.grp2num).subscribe((data) => {
+      console.log(data);
+
+      // Make sure it was successful
+      if ((<any>data).status == '200')
+      {
+        // 2. Set the chat as the root so that we navigate there and
+        // do not see the back arrow
+        //this.gotochat();
+        //this.app.getRootNav().push(GenchatPage);
+        //this.navCtrl.setRoot(GenchatPage);
+        this.app.getRootNav().setRoot(GenchatPage);
+        this.viewCtrl.dismiss();
+      }
+    });
+  }
+
+  getgrpnum(objName)
+  {
+    var retVal = '';
+
+    if ((objName.toLowerCase() == 'central district') || (objName.toLowerCase() == 'central'))
+    {
+      retVal = '1';
+    }
+    else if ((objName.toLowerCase() == 'northern district') || (objName.toLowerCase() == 'northern')) {
+      retVal = '5';
+    }
+    else if ((objName.toLowerCase() == 'eastern district') || (objName.toLowerCase() == 'eastern')) {
+      retVal = '3';
+    }
+    else if ((objName.toLowerCase() == 'southern district') || (objName.toLowerCase() == 'southern')) {
+      retVal = '9';
+    }
+    else if ((objName.toLowerCase() == 'western district') || (objName.toLowerCase() == 'western')) {
+      retVal = '7';
+    }
+    else if ((objName.toLowerCase() == 'northeastern district') || (objName.toLowerCase() == 'northeastern')) {
+      retVal = '4';
+    }
+    else if ((objName.toLowerCase() == 'southeastern district') || (objName.toLowerCase() == 'southeastern')) {
+      retVal = '2';
+    }
+    else if ((objName.toLowerCase() == 'northwestern district') || (objName.toLowerCase() == 'northwestern')) {
+      retVal = '6';
+    }
+    else if ((objName.toLowerCase() == 'southwestern district') || (objName.toLowerCase() == 'southwestern')) {
+      retVal = '8';
+    }
+    else if ((objName.toLowerCase() == 'ci') || (objName.toLowerCase() == 'ci')) {
+      retVal = '10';
+    }
+    else if ((objName.toLowerCase() == 'sis') || (objName.toLowerCase() == 'sis')) {
+      retVal = '11';
+    }
+    else if ((objName.toLowerCase() == 'watf') || (objName.toLowerCase() == 'watf')) {
+      retVal = '12';
+    }
+    else if ((objName.toLowerCase() == 'oi') || (objName.toLowerCase() == 'oi')) {
+      retVal = '13';
+    }
+    else if ((objName.toLowerCase() == 'so') || (objName.toLowerCase() == 'so')) {
+      retVal = '14';
+    }
+    else if ((objName.toLowerCase() == 'wc') || (objName.toLowerCase() == 'wc')) {
+      retVal = '15';
+    }
+
+    return retVal;
   }
 
 }

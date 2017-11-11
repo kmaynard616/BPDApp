@@ -1,25 +1,32 @@
 <ion-header>
   <ion-navbar>
     <ion-title>BPD Chat</ion-title>
+    <ion-buttons left start>
+      <button ion-button icon-only menuToggle>
+        <ion-icon name="menu"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-  <!-- <ion-fab top right edge>
-    <button ion-fab mini><ion-icon name="add"></ion-icon></button>
+  <ion-fab top right edge>
+    <button ion-fab><ion-icon name="add"></ion-icon></button>
     <ion-fab-list>
-      <button ion-fab><ion-icon name="create"></ion-icon></button>
+      <button ion-fab (click)="openchatmsg()"><ion-icon name="create"></ion-icon></button>
+      <button ion-fab (click)="opensubs()"><ion-icon name="settings"></ion-icon></button>
     </ion-fab-list>
   </ion-fab>
 </ion-content>
 
 <ion-content padding>
   <ion-card class="fi messageRight">
-    <ion-item>
+    <ion-item class="fiheader">
       <ion-avatar item-start>
         <img src="https://maps.baltimorepolice.org/flexviewer/chatpics/Max.jpg">
       </ion-avatar>
-      <h2>{{firstName}} {{lastName}}</h2>
+      <h2 style="color:#ffffff">{{firstName}} {{lastName}}</h2>
+      <p style="font-size:11px;color:#ffffff">11 November 2017 10:00 AM</p>
     </ion-item>
 
     <img src="https://baltimore.org/sites/default/master/files/styles/header-slide-rect/public/carousel/city-crop2.jpg?itok=CqWoZ-ZW">
@@ -35,6 +42,7 @@
         <img src="https://www.baltimorepolice.org/sites/default/files/styles/croped_photo/public/images/r.%20Melvin%20Russell.jpg?itok=JD9FVV5c">
       </ion-avatar>
       <h2>Melvin Russell</h2>
+      <p style="font-size:11px">11 November 2017 10:03 AM</p>
     </ion-item>
 
     <ion-card-content>
@@ -48,12 +56,27 @@
         <img src="http://www.nejfd.org/files/news/226/20121224140857_00001.jpg">
       </ion-avatar>
       <h2>Nick Guercio</h2>
+      <p style="font-size:11px">11 November 2017 10:45 AM</p>
     </ion-item>
 
     <ion-card-content>
       <p>Everyone remember that we have the district softball tournament this weekend.</p>
     </ion-card-content>
-  </ion-card> -->
+  </ion-card>
+
+  <ion-card class="fi messageRight">
+    <ion-item>
+      <ion-avatar item-start>
+        <img src="https://maps.baltimorepolice.org/flexviewer/chatpics/Max.jpg">
+      </ion-avatar>
+      <h2 style="color:#ffffff">{{firstName}} {{lastName}}</h2>
+      <p style="font-size:11px">11 November 2017 10:00 AM</p>
+    </ion-item>
+
+    <ion-card-content>
+      <p>Awesome, count me in for the tournament.</p>
+    </ion-card-content>
+  </ion-card>
 
   <!-- <h2>Chat Messages</h2> -->
   <!-- <ion-list>
@@ -65,9 +88,9 @@
 
 
 
-<ion-footer>
+<!-- <ion-footer>
       <ion-item>
         <ion-input type="text" [(ngModel)]="message"></ion-input>
         <button ion-button large item-end icon-right (click)="sendmessage()"><ion-icon name="send"></ion-icon></button>
       </ion-item>
-</ion-footer>
+</ion-footer> -->

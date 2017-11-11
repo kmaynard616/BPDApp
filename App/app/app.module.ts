@@ -5,6 +5,7 @@ import { MyApp } from './app.component';
 
 import { GenchatPage } from '../pages/genchat/genchat';
 import { ModalPage } from '../pages/modal/modal';
+import { CreatemsgPage } from '../pages/createmsg/createmsg';
 import { LandingPage } from '../pages/landing/landing';
 import { LandingmodalPage } from '../pages/landingmodal/landingmodal';
 
@@ -20,6 +21,7 @@ import { HttpModule } from '@angular/http';
     MyApp,
     GenchatPage,
     ModalPage,
+    CreatemsgPage,
     LandingPage,
     LandingmodalPage
   ],
@@ -33,6 +35,7 @@ import { HttpModule } from '@angular/http';
     MyApp,
     GenchatPage,
     ModalPage,
+    CreatemsgPage,
     LandingPage,
     LandingmodalPage
   ],
