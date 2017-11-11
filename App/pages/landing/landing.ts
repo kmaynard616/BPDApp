@@ -58,9 +58,12 @@ export class LandingPage {
 
   firstName: string = '';       // first name of the user
   lastName: string = '';        // last name of the user
+  lastAccess: string = '';
   grpCt: number = 0;  // Counter for current selected groups
   grp1: string = '';  // Variable for the initial groups name
   grp2: string = '';  // Variable for the second groups name
+  grp1num: string = '';
+  grp2num: string = '';
 
   userId: string = '';
 
@@ -70,11 +73,9 @@ export class LandingPage {
     // Set the platform
     this.platform = platform;
 
-    this.userId = '2';
+    this.userId = '6';
 
     this.getUserInfo(this.userId);
-
-    //alert('1');
   }
 
   ionViewDidLoad() {
@@ -117,12 +118,24 @@ export class LandingPage {
     // 3. The user is returning after 24 hours
     var now = new Date();
     now.setDate(now.getDate() - 1);
+    var lastEntry;
 
-    //var lastEntry = null;
-    var lastEntry = new Date('2017-11-06T12:30:00');
+    if (this.lastAccess == '')
+    {
+      lastEntry = '';
+    }
+    else
+    {
+      lastEntry = new Date(this.lastAccess);
+    }
+
+    //var lastEntry = '';
+    //var lastEntry = new Date('2017-11-06T12:30:00');
     //var lastEntry = new Date('2017-11-05T12:30:00');
 
-    if (lastEntry == null)
+    lastEntry = new Date('2017-11-05T12:30:00');
+
+    if (lastEntry == '')
     {
         // This is scenario #1
         // Do nothing, we need to show the subscriptions
@@ -159,6 +172,8 @@ export class LandingPage {
               this.firstName = (<any>this.items).firstName;
               this.lastName = (<any>this.items).lastName;
 
+              this.lastAccess = (<any>this.items).lastAccess;
+
               // Check to see how many groups the user is subscribed to
               if ((<any>this.items).subscriptionLocation.length == 1)
               {
@@ -186,8 +201,27 @@ export class LandingPage {
     }
 
   updateUserInfo() {
-    this.remoteService.updateUserSubscriptions(this.userId, this.grp1, this.grp2).subscribe((data) => {
+    if (this.grp1 != '')
+    {
+      this.grp1num = this.getgrpnum(this.grp1);
+    }
 
+    if (this.grp2 != '')
+    {
+      this.grp2num = this.getgrpnum(this.grp2);
+    }
+
+    // 1. Record the timestamp and grop selections
+    this.remoteService.updateUserSubscriptions(this.userId, this.grp1num, this.grp2num).subscribe((data) => {
+      console.log(data);
+
+      // Make sure it was successful
+      if (data.status == "200")
+      {
+        // 2. Set the chat as the root so that we navigate there and
+        // do not see the back arrow
+        this.gotochat();
+      }
     });
   }
 
@@ -195,9 +229,6 @@ export class LandingPage {
   // and would like to navigate to the chat.
 
   gotochat() {
-    // 1. Record the timestamp and grop selections
-
-
     // 2. Set the chat as the root so that we navigate there and
     // do not see the back arrow
     this.navCtrl.setRoot(GenchatPage);
@@ -416,5 +447,59 @@ export class LandingPage {
     else if (objName.toLowerCase() == 'wc') {
       this.toggle15 = true;
     }
+  }
+
+  getgrpnum(objName)
+  {
+    var retVal = '';
+
+    if ((objName.toLowerCase() == 'central district') || (objName.toLowerCase() == 'central'))
+    {
+      retVal = '1';
+    }
+    else if ((objName.toLowerCase() == 'northern district') || (objName.toLowerCase() == 'northern')) {
+      retVal = '5';
+    }
+    else if ((objName.toLowerCase() == 'eastern district') || (objName.toLowerCase() == 'eastern')) {
+      retVal = '3';
+    }
+    else if ((objName.toLowerCase() == 'southern district') || (objName.toLowerCase() == 'southern')) {
+      retVal = '9';
+    }
+    else if ((objName.toLowerCase() == 'western district') || (objName.toLowerCase() == 'western')) {
+      retVal = '7';
+    }
+    else if ((objName.toLowerCase() == 'northeastern district') || (objName.toLowerCase() == 'northeastern')) {
+      retVal = '4';
+    }
+    else if ((objName.toLowerCase() == 'southeastern district') || (objName.toLowerCase() == 'southeastern')) {
+      retVal = '2';
+    }
+    else if ((objName.toLowerCase() == 'northwestern district') || (objName.toLowerCase() == 'northwestern')) {
+      retVal = '6';
+    }
+    else if ((objName.toLowerCase() == 'southwestern district') || (objName.toLowerCase() == 'southwestern')) {
+      retVal = '8';
+    }
+    else if ((objName.toLowerCase() == 'ci') || (objName.toLowerCase() == 'ci')) {
+      retVal = '10';
+    }
+    else if ((objName.toLowerCase() == 'sis') || (objName.toLowerCase() == 'sis')) {
+      retVal = '11';
+    }
+    else if ((objName.toLowerCase() == 'watf') || (objName.toLowerCase() == 'watf')) {
+      retVal = '12';
+    }
+    else if ((objName.toLowerCase() == 'oi') || (objName.toLowerCase() == 'oi')) {
+      retVal = '13';
+    }
+    else if ((objName.toLowerCase() == 'so') || (objName.toLowerCase() == 'so')) {
+      retVal = '14';
+    }
+    else if ((objName.toLowerCase() == 'wc') || (objName.toLowerCase() == 'wc')) {
+      retVal = '15';
+    }
+
+    return retVal;
   }
 }

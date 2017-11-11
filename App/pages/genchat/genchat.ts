@@ -15,6 +15,8 @@ import { ModalPage } from '../modal/modal';
 @Injectable()
 export class GenchatPage {
   postList = [];
+  firstName: string = 'Benjamin';
+  lastName: string = 'Flores';
 
   constructor(public modalCtrl: ModalController, private remoteService : RemoteServiceProvider, public navCtrl: NavController, public navParams: NavParams) {
     //this.presentModal();

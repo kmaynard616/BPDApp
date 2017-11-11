@@ -6,8 +6,8 @@ import 'rxjs/add/operator/catch';
 
 @Injectable()
 export class RemoteServiceProvider {
-  // getAPIURL: string = 'http://localhost:5000/v1';
-  // getAPIURL: string = 'http://localhost:8080/webservice/v1/bpd';
+  //getAPIURL: string = 'http://localhost:5000/v1';
+  //getAPIURL: string = 'http://localhost:8080/webservice/v1/bpd';
   getAPIURL: string = 'http://192.168.0.19:8080/webservice/v1/bpd';
 
   constructor(public http: Http) {
@@ -29,10 +29,11 @@ export class RemoteServiceProvider {
     var body = {userId: userId};
     var endpoint = this.getAPIURL + '/updateUserSettings';
 
-    return this.http.post(endpoint, body)
-            .then(
-              function (res) {
-                console.log(res);
-              });
+    return this.http.post(endpoint,
+            {'userId':userId, 'primaryLocationId':grp1,'secondaryLocationId':grp2},
+            {headers: {'Content-Type': 'application/json'}})
+	           .do(function(data) {
+               console.log(data);
+             });
   }
 }
