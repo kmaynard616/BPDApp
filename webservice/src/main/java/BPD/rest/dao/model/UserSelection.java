@@ -6,7 +6,9 @@ public class UserSelection {
 	int primaryLocationId;
 	int secondaryLocationId;
 	
-	
+	public UserSelection(){
+		
+	}
 	public int getUserId() {
 		return userId;
 	}
