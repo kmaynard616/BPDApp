@@ -133,7 +133,7 @@ export class LandingPage {
     //var lastEntry = new Date('2017-11-06T12:30:00');
     //var lastEntry = new Date('2017-11-05T12:30:00');
 
-    lastEntry = new Date('2017-11-05T12:30:00');
+    //lastEntry = new Date('2017-11-05T12:30:00');
 
     if (lastEntry == '')
     {
@@ -216,7 +216,7 @@ export class LandingPage {
       console.log(data);
 
       // Make sure it was successful
-      if (data.status == "200")
+      if ((<any>data).status == '200')
       {
         // 2. Set the chat as the root so that we navigate there and
         // do not see the back arrow

@@ -28,12 +28,19 @@ export class RemoteServiceProvider {
   updateUserSubscriptions(userId: string, grp1: string, grp2: string) {
     var body = {userId: userId};
     var endpoint = this.getAPIURL + '/updateUserSettings';
+    let headers = this._getHeaders();
 
     return this.http.post(endpoint,
             {'userId':userId, 'primaryLocationId':grp1,'secondaryLocationId':grp2},
-            {headers: {'Content-Type': 'application/json'}})
+            headers)
 	           .do(function(data) {
                console.log(data);
              });
+  }
+
+  _getHeaders() {
+    let headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    return headers;
   }
 }
