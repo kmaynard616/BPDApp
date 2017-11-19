@@ -56,14 +56,11 @@ public class AppServiceTest {
 
     @Test
     public void getUserInfo() {
-        String expectedOutput = "{\"firstName\":\"John\",\"lastName\":\"Doe\",\"subscriptionLocation\":[\"Location 1\"],\"locDesc\":[\"Location 1 Desc\"]}";
+        String expectedOutput = "{\"firstName\":\"John\",\"lastName\":\"Doe\",\"subscriptionLocation\":[\"Location 1\"],\"lastAccess\":\"2017-11-02\",\"locDesc\":[\"Location 1 Desc\"]}";
         Response response = appService.getUserInfo(1);
-        System.out.println("XXXX "+response.getEntity());
         assertEquals(200, response.getStatus());
         assertNotNull(response.getEntity());
-        System.out.println("YYYY" +response.getEntity());
         assertEquals(expectedOutput, response.getEntity().toString());
-        System.out.println("YYYY" +response.getEntity());
         
     }
 
@@ -81,13 +78,13 @@ public class AppServiceTest {
         assertNotNull(expected, response.getEntity());
     }
 
-    @Test
-    public void submitUserTest() {
-        String data = "test data";
-        String expected = "Post data is "+data;
-        Response response = appService.submitUser(data);
-        assertEquals(200, response.getStatus());
-        assertNotNull(response.getEntity());
-        assertNotNull(expected, response.getEntity());
-    }
+//    @Test
+//    public void submitUserTest() {
+//        String data = "test data";
+//        String expected = "Post data is "+data;
+//        Response response = appService.submitUser(data);
+//        assertEquals(200, response.getStatus());
+//        assertNotNull(response.getEntity());
+//        assertNotNull(expected, response.getEntity());
+//    }
 }
