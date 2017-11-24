@@ -66,7 +66,7 @@ public class BpdDaoImplTest {
         when(resultSet.next()).thenReturn(true).thenReturn(false);
         when(resultSet.getString("FIRST_NAME")).thenReturn(user.getFirst_name());
         when(resultSet.getString("LAST_NAME")).thenReturn(user.getLast_name());
-        when(resultSet.getString("LAST_ACCESS_DATE")).thenReturn(user.getLast_access_date());
+        when(resultSet.getString("SUBSCRIPTION_DATE")).thenReturn(user.getLast_access_date());
         when(resultSet.getString("SUBSCRIPTION_LOCATION")).thenReturn("Location 1");
         when(resultSet.getString("SUBSCRIPTION_LOC_DESC")).thenReturn("Location 1 Desc");
         when(stmt.executeQuery()).thenReturn(resultSet);
