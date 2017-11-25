@@ -120,6 +120,8 @@ export class LandingPage {
     now.setDate(now.getDate() - 1);
     var lastEntry;
 
+    console.log('last entry: ' + this.lastAccess);
+
     if (this.lastAccess == '')
     {
       lastEntry = '';
@@ -231,7 +233,7 @@ export class LandingPage {
   gotochat() {
     // 2. Set the chat as the root so that we navigate there and
     // do not see the back arrow
-    this.navCtrl.setRoot(GenchatPage);
+    this.navCtrl.setRoot(GenchatPage, {"strjson": this.strjson, "userId": this.userId});
 
   }
 
@@ -249,7 +251,7 @@ export class LandingPage {
   presentModal() {
     //let modal = this.modalCtrl.create(LandingmodalPage, {strjson: this.strjson});
     //modal.present();
-    let modal = this.modalCtrl.create(LandingmodalPage, {"strjson": this.strjson});
+    let modal = this.modalCtrl.create(LandingmodalPage, {"strjson": this.strjson, "userId": this.userId});
     modal.present(modal);
   }
 
@@ -401,50 +403,50 @@ export class LandingPage {
   }
 
   setjquerytogglevalue(objName) {
-    if (objName.toLowerCase() == 'central district')
+    if ((objName.toLowerCase() == 'central district') || (objName.toLowerCase() == 'central'))
     {
       this.toggle1 = true;
     }
-    else if (objName.toLowerCase() == 'northern district') {
+    else if ((objName.toLowerCase() == 'northern district') || (objName.toLowerCase() == 'northern')) {
       this.toggle2 = true;
     }
-    else if (objName.toLowerCase() == 'eastern district') {
+    else if ((objName.toLowerCase() == 'eastern district') || (objName.toLowerCase() == 'eastern')) {
       this.toggle3 = true;
     }
-    else if (objName.toLowerCase() == 'southern district') {
+    else if ((objName.toLowerCase() == 'southern district') || (objName.toLowerCase() == 'southern')) {
       this.toggle4 = true;
     }
-    else if (objName.toLowerCase() == 'western district') {
+    else if ((objName.toLowerCase() == 'western district') || (objName.toLowerCase() == 'western')) {
       this.toggle5 = true;
     }
-    else if (objName.toLowerCase() == 'northeastern district') {
+    else if ((objName.toLowerCase() == 'northeastern district') || (objName.toLowerCase() == 'northeastern')) {
       this.toggle6 = true;
     }
-    else if (objName.toLowerCase() == 'southeastern district') {
+    else if ((objName.toLowerCase() == 'southeastern district') || (objName.toLowerCase() == 'southeastern')) {
       this.toggle7 = true;
     }
-    else if (objName.toLowerCase() == 'northwestern district') {
+    else if ((objName.toLowerCase() == 'northwestern district') || (objName.toLowerCase() == 'northwestern')) {
       this.toggle8 = true;
     }
-    else if (objName.toLowerCase() == 'southwestern district') {
+    else if ((objName.toLowerCase() == 'southwestern district') || (objName.toLowerCase() == 'southwestern')) {
       this.toggle9 = true;
     }
-    else if (objName.toLowerCase() == 'ci') {
+    else if ((objName.toLowerCase() == 'citywide investigation') || (objName.toLowerCase() == 'ci')) {
       this.toggle10 = true;
     }
-    else if (objName.toLowerCase() == 'sis') {
+    else if ((objName.toLowerCase() == 'special investigation section') || (objName.toLowerCase() == 'sis')) {
       this.toggle11 = true;
     }
-    else if (objName.toLowerCase() == 'watf') {
+    else if ((objName.toLowerCase() == 'watf') || (objName.toLowerCase() == 'watf')) {
       this.toggle12 = true;
     }
-    else if (objName.toLowerCase() == 'oi') {
+    else if ((objName.toLowerCase() == 'operational investigation') || (objName.toLowerCase() == 'oi')) {
       this.toggle13 = true;
     }
-    else if (objName.toLowerCase() == 'so') {
+    else if ((objName.toLowerCase() == 'special operations') || (objName.toLowerCase() == 'so')) {
       this.toggle14 = true;
     }
-    else if (objName.toLowerCase() == 'wc') {
+    else if ((objName.toLowerCase() == 'watch center') || (objName.toLowerCase() == 'wc')) {
       this.toggle15 = true;
     }
   }

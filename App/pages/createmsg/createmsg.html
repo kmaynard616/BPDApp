@@ -20,22 +20,25 @@
   </ion-item>
 
   <ion-item>
-    <ion-label floating>Description</ion-label>
+    <ion-label floating>Message</ion-label>
     <ion-textarea rows="5"></ion-textarea>
   </ion-item>
   <p style="padding-left: 15px">Attachments</p>
-  <br />
-  <br />
-  <br />
+  <ion-card>
+    <ion-card-header>Current image</ion-card-header>
+    <ion-card-content>
+      <!-- <img [src]="currentImage" *ngIf="currentImage" /> -->
+    </ion-card-content>
+  </ion-card>
   <br />
   <br />
   <ion-fab left middle>
     <button ion-fab color="secondary"><ion-icon name="arrow-dropright"></ion-icon></button>
     <ion-fab-list side="right">
-      <button ion-fab><ion-icon name="camera"></ion-icon></button>
+      <button ion-fab (click)="getImage()"><ion-icon name="camera"></ion-icon></button>
       <button ion-fab><ion-icon name="videocam"></ion-icon></button>
       <button ion-fab><ion-icon name="mic"></ion-icon></button>
-      <button ion-fab><ion-icon name="images"></ion-icon></button>
+      <button ion-fab (click)="selectImage()"><ion-icon name="images"></ion-icon></button>
     </ion-fab-list>
   </ion-fab>
 
@@ -44,20 +47,23 @@
       Affected Subscription Area
     </ion-list-header>
     <ion-item>
-      <ion-label>Subscription #1</ion-label>
+      <ion-label>{{ grp1 }}</ion-label>
       <ion-toggle value=""></ion-toggle>
     </ion-item>
     <ion-item>
-      <ion-label>Subscription #2</ion-label>
+      <ion-label>{{ grp2 }}</ion-label>
       <ion-toggle value=""></ion-toggle>
     </ion-item>
   </ion-list>
-
+  <br />
+  <br />
+  <br />
+  <br />
 </ion-content>
 
 <ion-footer>
   <ion-fab bottom right>
-    <button ion-fab>
+    <button ion-fab (click)="sendChat()">
       <ion-icon name="send"></ion-icon>
     </button>
   </ion-fab>

@@ -12,9 +12,10 @@ import { LandingmodalPage } from '../pages/landingmodal/landingmodal';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { RemoteServiceProvider } from '../providers/remote-service/remote-service';
-// import { RemoteService } from '../providers/remote-service';
 import { HttpModule } from '@angular/http';
-// import { Http } from '@angular/http';
+import { Camera, CameraOptions } from '@ionic-native/camera';
+import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer';
+import { File } from '@ionic-native/file';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,10 @@ import { HttpModule } from '@angular/http';
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    RemoteServiceProvider
+    RemoteServiceProvider,
+    FileTransfer,
+    File,
+    Camera
   ]
 })
 export class AppModule {}

@@ -27,7 +27,9 @@ export class LandingmodalPage {
               private remoteService : RemoteServiceProvider) {
     this.navCtrl = navCtrl;
     this.strjson = this.navParams.get('strjson');
-    console.log(this.strjson);
+    this.userId = this.navParams.get('userId');
+    console.log('userId: ' + this.userId);
+    console.log('strjson: ' + this.strjson);
     // this.items = this.strjson.json();
 
     if (undefined !== this.strjson)
@@ -117,22 +119,25 @@ export class LandingmodalPage {
       this.grp2num = this.getgrpnum(this.group2);
     }
 
-    // 1. Record the timestamp and grop selections
-    this.remoteService.updateUserSubscriptions(this.userId, this.grp1num, this.grp2num).subscribe((data) => {
-      console.log(data);
+    // // 1. Record the timestamp and grop selections
+    // this.remoteService.updateUserSubscriptions(this.userId, this.grp1num, this.grp2num).subscribe((data) => {
+    //   console.log(data);
+    //
+    //   // Make sure it was successful
+    //   if ((<any>data).status == '200')
+    //   {
+    //     // 2. Set the chat as the root so that we navigate there and
+    //     // do not see the back arrow
+    //     //this.gotochat();
+    //     //this.app.getRootNav().push(GenchatPage);
+    //     //this.navCtrl.setRoot(GenchatPage);
+    //     this.app.getRootNav().setRoot(GenchatPage);
+    //     this.viewCtrl.dismiss();
+    //   }
+    // });
 
-      // Make sure it was successful
-      if ((<any>data).status == '200')
-      {
-        // 2. Set the chat as the root so that we navigate there and
-        // do not see the back arrow
-        //this.gotochat();
-        //this.app.getRootNav().push(GenchatPage);
-        //this.navCtrl.setRoot(GenchatPage);
-        this.app.getRootNav().setRoot(GenchatPage);
-        this.viewCtrl.dismiss();
-      }
-    });
+    this.app.getRootNav().setRoot(GenchatPage, {"strjson": this.strjson, "userId": this.userId});
+    this.viewCtrl.dismiss();
   }
 
   getgrpnum(objName)
@@ -167,22 +172,22 @@ export class LandingmodalPage {
     else if ((objName.toLowerCase() == 'southwestern district') || (objName.toLowerCase() == 'southwestern')) {
       retVal = '8';
     }
-    else if ((objName.toLowerCase() == 'ci') || (objName.toLowerCase() == 'ci')) {
+    else if ((objName.toLowerCase() == 'citywide investigation') || (objName.toLowerCase() == 'ci')) {
       retVal = '10';
     }
-    else if ((objName.toLowerCase() == 'sis') || (objName.toLowerCase() == 'sis')) {
+    else if ((objName.toLowerCase() == 'special investigation section') || (objName.toLowerCase() == 'sis')) {
       retVal = '11';
     }
     else if ((objName.toLowerCase() == 'watf') || (objName.toLowerCase() == 'watf')) {
       retVal = '12';
     }
-    else if ((objName.toLowerCase() == 'oi') || (objName.toLowerCase() == 'oi')) {
+    else if ((objName.toLowerCase() == 'operational investigation') || (objName.toLowerCase() == 'oi')) {
       retVal = '13';
     }
-    else if ((objName.toLowerCase() == 'so') || (objName.toLowerCase() == 'so')) {
+    else if ((objName.toLowerCase() == 'special operations') || (objName.toLowerCase() == 'so')) {
       retVal = '14';
     }
-    else if ((objName.toLowerCase() == 'wc') || (objName.toLowerCase() == 'wc')) {
+    else if ((objName.toLowerCase() == 'watch center') || (objName.toLowerCase() == 'wc')) {
       retVal = '15';
     }
 

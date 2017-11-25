@@ -8,7 +8,7 @@ import 'rxjs/add/operator/catch';
 export class RemoteServiceProvider {
   //getAPIURL: string = 'http://localhost:5000/v1';
   //getAPIURL: string = 'http://localhost:8080/webservice/v1/bpd';
-  getAPIURL: string = 'http://192.168.0.19:8080/webservice/v1/bpd';
+  getAPIURL: string = 'http://192.168.0.20:8080/webservice/v1/bpd';
 
   constructor(public http: Http) {
     console.log('Hello RemoteServiceProvider Provider');
@@ -29,9 +29,14 @@ export class RemoteServiceProvider {
     var body = {userId: userId};
     var endpoint = this.getAPIURL + '/updateUserSettings';
     let headers = this._getHeaders();
+    //int opt1 = 0;
+
+    console.log('UserId: ' + userId);
+    console.log('grp1: ' + grp1);
+    console.log('grp2: ' + grp2);
 
     return this.http.post(endpoint,
-            {'userId':userId, 'primaryLocationId':grp1,'secondaryLocationId':grp2},
+            {'userId':parseInt(userId), 'primaryLocationId':parseInt(grp1),'secondaryLocationId':parseInt(grp2)},
             headers)
 	           .do(function(data) {
                console.log(data);

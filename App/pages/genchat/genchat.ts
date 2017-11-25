@@ -16,17 +16,28 @@ import { CreatemsgPage } from '../createmsg/createmsg';
 @Injectable()
 export class GenchatPage {
   postList = [];
+  items: object;
+  strjson: string = '';
   firstName: string = 'Benjamin';
   lastName: string = 'Flores';
+  userId: string = '';
 
-  // constructor(public modalCtrl: ModalController, private remoteService : RemoteServiceProvider,
-  //   public navCtrl: NavController, public navParams: NavParams, public menuCtrl: MenuController) {
-  //   //this.presentModal();
-  //
-  // }
   constructor(public modalCtrl: ModalController, private remoteService : RemoteServiceProvider,
     public navCtrl: NavController, public navParams: NavParams, public menuCtrl: MenuController) {
-    //this.presentModal();
+      this.navCtrl = navCtrl;
+      this.strjson = this.navParams.get('strjson');
+      this.userId = this.navParams.get('userId');
+      console.log(this.navParams);
+      console.log('userId: ' + this.userId);
+      console.log('strjson: ' + this.strjson);
+
+      if (undefined !== this.strjson)
+      {
+        if (this.strjson.length > 0)
+        {
+          this.items = JSON.parse(this.strjson);
+        }
+      }
 
   }
 
@@ -43,12 +54,12 @@ export class GenchatPage {
   }
 
   opensubs() {
-    let modal = this.modalCtrl.create(ModalPage);
+    let modal = this.modalCtrl.create(ModalPage, {"strjson": this.strjson, "userId": this.userId});
     modal.present();
   }
 
   openchatmsg() {
-    let modal = this.modalCtrl.create(CreatemsgPage);
+    let modal = this.modalCtrl.create(CreatemsgPage, {"strjson": this.strjson, "userId": this.userId});
     modal.present();
   }
 
