@@ -303,7 +303,7 @@ public class BpdDaoImpl implements BpdDao{
 		return new ArrayList<ReturnMessage>();
 	}
 	
-	public Response getAttatchment(int id) throws SQLException {     
+	public Response getAttachment(int id) throws SQLException {     
 		Response response = null;
 	    Connection conn = null;
 	    PreparedStatement ps = null;

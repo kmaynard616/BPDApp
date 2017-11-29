@@ -140,7 +140,7 @@ public class AppService {
 	@Produces(MediaType.APPLICATION_OCTET_STREAM)
 	public Response getAttachmentByID(@PathParam("id")  int attachmentId) throws IOException, SQLException {
 	  
-	  Response response = bpdDAO.getAttatchment(attachmentId);
+	  Response response = bpdDAO.getAttachment(attachmentId);
 	  return response;
 	} 
 	
