@@ -1,5 +1,6 @@
 package BPD.rest.dao;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -9,10 +10,18 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
 import javax.sql.DataSource;
+
+
+
+
+
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.ResponseBuilder;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -115,47 +124,74 @@ public class BpdDaoImpl implements BpdDao{
 		}
 	}
 	
-	public void uploadAttatchment(InputStream uploadedInputStream) {
-		
-		logger.debug("upload Attatchment");
+	public void uploadAttatchment(InputStream uploadedInputStream, String messageId) {
+
+		logger.debug("upload Attatchment for messageId " + messageId);
 		Connection conn = null;
-		
-		try{ 
+
+		try {
 			conn = dataSource.getConnection();
-			PreparedStatement pstmt = conn.prepareStatement("insert into ATTACHMENTS (CREATOR_ID, BLOB_TYPE_ID, DATE_CREATED, BLOB) values (?, ?, ?, ?)");
-			
+			PreparedStatement pstmt = conn
+					.prepareStatement(
+							"insert into ATTACHMENTS (CREATOR_ID, BLOB_TYPE_ID, DATE_CREATED, BLOB) values (?, ?, ?, ?)",
+							new String[] { "attachment_id" });
+
+			String attachmentId = null;
+
 			Date utilDate = new Date();
 			java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
-			
+
 			pstmt.setInt(1, 1);
 			pstmt.setInt(2, 2);
 			pstmt.setDate(3, sqlDate);
 			pstmt.setBinaryStream(4, uploadedInputStream);
-			pstmt.executeUpdate();
+			// execute the insert statement, if success get the primary key
+			// value
+			if (pstmt.executeUpdate() > 0) {
+
+				ResultSet generatedKeys = pstmt.getGeneratedKeys();
+
+				if (null != generatedKeys && generatedKeys.next()) {
+
+					attachmentId = String.valueOf(generatedKeys.getLong(1));
+				}
+				generatedKeys.close();
+			}
+			pstmt.close();
+			PreparedStatement ps = conn.prepareStatement("insert into MSG_ATTACHMENTS (MESSAGE_ID, ATTACHMENT_ID) values (?, ?)");
+			ps.setInt(1, Integer.valueOf(messageId));
+			ps.setInt(2, Integer.valueOf(attachmentId));
+			int update = ps.executeUpdate();
+			ps.close();
+			
+			
 			conn.commit();
-		
+
 		} catch (SQLException e) {
-			logger.debug("Sql exception uploading attatchment : " + e.getMessage());
+			logger.debug("Sql exception uploading attatchment : "
+					+ e.getMessage());
 
 		} finally {
 			if (conn != null) {
 				try {
 					conn.close();
 				} catch (SQLException e) {
-					logger.debug("exception : " + e.getMessage());}
+					logger.debug("exception : " + e.getMessage());
+				}
 			}
 		}
 
 	}
-	public void uploadMessage(BpdAppMessage message) {
+	public String uploadMessage(BpdAppMessage message) {
 		String sql = "insert into BPD_APP_MESSAGES (MESSAGE_TYPE_ID, MESSAGE, CREATED_BY, DEVICE_ID, DATE_CREATED, SUBSCRIPTION_LOC_ID, ADDRESS_ID) values (?, ?, ?, ?, ?, ?, ?)";
 		
 		logger.debug("upload message");
 		Connection conn = null;
+		String messageId = null;
 
 		try {
 			conn = dataSource.getConnection();
-			PreparedStatement ps = conn.prepareStatement(sql);
+			PreparedStatement ps = conn.prepareStatement(sql, new String[] { "message_id" });
 			ps.setInt(1, message.getTypeId());
 			ps.setString(2, message.getMessage());
 			ps.setInt(3, message.getCreatedBy());
@@ -165,7 +201,17 @@ public class BpdDaoImpl implements BpdDao{
 			ps.setDate(5,sqlDate);
 			ps.setInt(6,message.getSubLocId());
 			ps.setInt(7, message.getAddressId());
-			int update = ps.executeUpdate();
+			
+			if (ps.executeUpdate() > 0) {
+
+				ResultSet generatedKeys = ps.getGeneratedKeys();
+
+				if (null != generatedKeys && generatedKeys.next()) {
+
+					messageId = String.valueOf(generatedKeys.getLong(1));
+				}
+				generatedKeys.close();
+			}
 			ps.close();
 			
 		} catch (SQLException e) {
@@ -175,15 +221,38 @@ public class BpdDaoImpl implements BpdDao{
 			if (conn != null) {
 				try {
 					conn.close();
+					return messageId;
 				} catch (SQLException e) {
 					logger.debug("exception : " + e.getMessage());}
 			}
+			
 		}
+		return messageId;
 		
 	}
 	public ArrayList<ReturnMessage> getUserMessages(int userId) {
 		// TODO Auto-generated method stub
-		String sql = "SELECT MESSAGE, CREATED_BY, DATE_CREATED from BPD_APP_MESSAGES WHERE SUBSCRIPTION_LOC_ID in(?,?)";
+		//String sql = "SELECT MESSAGE, CREATED_BY, DATE_CREATED from BPD_APP_MESSAGES WHERE SUBSCRIPTION_LOC_ID in(?,?)";
+		StringBuilder sb = new StringBuilder();
+		sb.append("SELECT BPD.MESSAGE_ID, MAV.ATTACHMENT_ID, BPD.MESSAGE_TYPE_ID, M.MESSAGE_TYPE_DESC, BPD.MESSAGE, U.USER_ID, U.BPD_USER_ID, U.LAST_NAME, U.FIRST_NAME, D.DEVICE_ID, D.DEVICE_NAME, ");
+		sb.append("BPD.DATE_CREATED, TO_CHAR(BPD.DATE_CREATED, 'HH24:MI:SS') AS TIME_MESSAGE_CREATED, ");
+		sb.append("BPD.SUBSCRIPTION_LOC_ID AS MESSAGE_LOCATION_ID, SL.SUBSCRIPTION_LOC_DESC AS MESSAGE_LOCATION, ");
+		sb.append("BPD.SECONDARY_LOC_ID AS SECONDARY_LOCATION_ID, ");
+		sb.append("(SELECT SUBSCRIPTION_LOC_DESC FROM SUBSCRIPTION_LOCATIONS WHERE SUBSCRIPTION_LOCATION_ID = BPD.SECONDARY_LOC_ID) AS SEC_MESSAGE_LOCATION ");
+		sb.append("FROM BPD_APP_MESSAGES BPD ");
+		sb.append("INNER JOIN APP_USERS U ");
+		sb.append("ON BPD.CREATED_BY = U.USER_ID ");
+		sb.append("INNER JOIN DEVICES D ");
+		sb.append("ON BPD.DEVICE_ID = D.DEVICE_ID ");
+		sb.append("INNER JOIN SUBSCRIPTION_LOCATIONS SL ");
+		sb.append("ON SL.SUBSCRIPTION_LOCATION_ID = BPD.SUBSCRIPTION_LOC_ID ");
+		sb.append("INNER JOIN MESSAGE_TYPES M ");
+		sb.append("ON BPD.MESSAGE_TYPE_ID = M.MESSAGE_TYPE_ID ");
+		sb.append("LEFT JOIN MSG_ATTACHMENTS_VIEW MAV ");
+		sb.append("ON BPD.MESSAGE_ID = MAV.MESSAGE_ID ");
+		sb.append("WHERE BPD.SUBSCRIPTION_LOC_ID in(?,?) ");
+		sb.append("ORDER BY BPD.DATE_CREATED");
+		String sql = sb.toString();
 		String subSql = "SELECT PRIMARY_SUB_LOCATION_ID, SECONDARY_SUB_LOCATION_ID from USER_DEVICES where USER_ID = ?";
 		Connection conn = null;
 		
@@ -203,7 +272,8 @@ public class BpdDaoImpl implements BpdDao{
 			}
 			rs.close();
 			ps1.close();
-			
+			logger.debug("GetMessages primaryId  " + primaryId + "secondaryID " + secondaryId);
+			logger.debug("GetMessages SQL " + sql);
 			PreparedStatement ps2 = conn.prepareStatement(sql);
 			ps2.setInt(1, primaryId);
 			ps2.setInt(2, secondaryId);
@@ -211,7 +281,8 @@ public class BpdDaoImpl implements BpdDao{
 			ResultSet rs2 = ps2.executeQuery();
 			ArrayList<ReturnMessage> returnList = new ArrayList<ReturnMessage>();
 			while(rs2.next()) {
-				ReturnMessage rm = new ReturnMessage(rs2.getInt("CREATED_BY"), rs2.getString("Message"), rs2.getDate("DATE_CREATED"));
+				ReturnMessage rm = new ReturnMessage(rs2.getInt("USER_ID"), rs2.getString("Message"), rs2.getDate("DATE_CREATED"));
+				rm.setAttatchmentId(rs2.getInt("ATTACHMENT_ID"));
 				returnList.add(rm);
 				
 			}
@@ -220,7 +291,7 @@ public class BpdDaoImpl implements BpdDao{
 			
 			return returnList;
 		} catch (SQLException e) {
-			logger.debug("SqlException getUser : " + e.getMessage());
+			logger.debug("SqlException getMessages : " + e.getMessage());
 			e.printStackTrace();
 		} finally {
 			if (conn != null) {
@@ -231,5 +302,72 @@ public class BpdDaoImpl implements BpdDao{
 		}
 		return new ArrayList<ReturnMessage>();
 	}
+	
+	public Response getAttatchment(int id) throws SQLException {     
+		Response response = null;
+	    Connection conn = null;
+	    PreparedStatement ps = null;
+	    
+	    String sql ="select attachment_id, blob, blob_type, date_created, file_name from msg_attachments_view where attachment_id = ?" ;
+	    
+	    logger.info("Inside getattatcment...");
+	    logger.info("ID: " + id);
 
+	    try {
+			conn = dataSource.getConnection();
+			ps = conn.prepareStatement(sql);
+	          
+		    ps.setInt(1, id);
+		    ResultSet result = ps.executeQuery();
+		    if (result.next()) {
+		     
+		        String date_created = result.getDate("date_created").toString();
+		        String blobType = result.getString("blob_type");
+		       
+		        logger.info("filename: " + date_created);
+		        
+		        final InputStream in = result.getBinaryStream("blob");
+		        
+		        ByteArrayOutputStream out = new ByteArrayOutputStream();
+		        int data = in.read();
+		        while (data >= 0) {
+		          out.write((char) data);
+		          data = in.read();
+		        }
+		        out.flush();
+		          
+		        ResponseBuilder builder = Response.ok(out.toByteArray());
+		        builder.header("Content-Disposition", "attachment; blobType=" + blobType);
+		        response = builder.build();
+		      } else {
+		        logger.info("Unable to find record with ID: " + id);
+		        response = Response.status(404).
+		                entity("Unable to find record with ID: " + id).
+		                type("text/plain").
+		                build();
+		      }
+		      
+		    } catch (SQLException e) {
+		      logger.error(String.format("Inside downloadFilebyID==> Unable to get file with ID: %s", 
+		          id));
+		      
+		      response = Response.status(404).
+		              entity(" Unable to get file with ID: " + id).
+		              type("text/plain").
+		              build();
+		      e.printStackTrace();
+		    } catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} finally {
+		      try {
+		        ps.close();
+		      } catch (SQLException e) {
+		        e.printStackTrace();
+		      }
+		      conn.close();
+		    }
+		    
+		    return response;
+	  }
 }

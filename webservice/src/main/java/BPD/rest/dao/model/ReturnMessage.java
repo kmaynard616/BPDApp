@@ -7,6 +7,8 @@ public class ReturnMessage {
 	String message;
 	int createdBy;
 	Date dateCreated;
+	int attatchmentId;
+	
 	public ReturnMessage(){
 		
 	}
@@ -34,6 +36,10 @@ public class ReturnMessage {
 	public void setDateCreated(Date dateCreated) {
 		this.dateCreated = dateCreated;
 	}
-	
-	
+	public int getAttatchmentId() {
+		return attatchmentId;
+	}
+	public void setAttatchmentId(int attatchmentId) {
+		this.attatchmentId = attatchmentId;
+	}	
 }

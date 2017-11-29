@@ -5,6 +5,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import javax.ws.rs.Consumes;
@@ -72,6 +73,7 @@ public class AppService {
 			jo.put("createdBy",msg.getCreatedBy());
 			jo.put("message", msg.getMessage());
 			jo.put("dateCreated", msg.getDateCreated());
+			jo.put("attatchmentId", msg.getAttatchmentId());
 			ja.put(jo);
 		}
 		
@@ -102,8 +104,7 @@ public class AppService {
     @Produces({MediaType.TEXT_PLAIN})
 	@Path("/submitMessage")
 	public Response submitMessage(BpdAppMessage message){
-		String output = "New Massage by " + message.getCreatedBy();
-		bpdDAO.uploadMessage(message);
+		 String output = bpdDAO.uploadMessage(message);
 		return Response.status(200).entity(output).build();
 				
 	}
@@ -119,15 +120,28 @@ public class AppService {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response uploadFile(
 		@FormDataParam("file") InputStream uploadedInputStream,
-		@FormDataParam("file") FormDataContentDisposition fileDetail) {
-
-		bpdDAO.uploadAttatchment(uploadedInputStream);
-
+		@FormDataParam("file") FormDataContentDisposition fileDetail,
+		@FormDataParam("messageId") String  messageId) {
+		logger.debug("upmessageId upload attatchment for messageId " + messageId);
+		bpdDAO.uploadAttatchment(uploadedInputStream, messageId);
+		
 		String output = "File uploaded saved to db";
 
 		return Response.status(200).entity(output).build();
 
 	}
-
+	
+	/**
+	 * get Attatchments
+	 * @throws SQLException 
+	 */
+	@GET
+	@Path("/download/attatchemet/{id}")
+	@Produces(MediaType.APPLICATION_OCTET_STREAM)
+	public Response getAttachmentByID(@PathParam("id")  int msgId) throws IOException, SQLException {
+	  
+	  Response response = bpdDAO.getAttatchment(msgId);
+	  return response;
+	} 
 	
 }
