@@ -16,18 +16,18 @@
 <ion-content padding>
   <ion-item>
     <ion-label>Is Field Intelligence Message?</ion-label>
-    <ion-toggle color="secondary" checked="false"></ion-toggle>
+    <ion-toggle color="secondary" checked="false" [(ngModel)]="toggle0"></ion-toggle>
   </ion-item>
 
   <ion-item>
     <ion-label floating>Message</ion-label>
-    <ion-textarea rows="5"></ion-textarea>
+    <ion-textarea rows="5" [(ngModel)]="message"></ion-textarea>
   </ion-item>
   <p style="padding-left: 15px">Attachments</p>
   <ion-card>
     <ion-card-header>Current image</ion-card-header>
     <ion-card-content>
-      <!-- <img [src]="currentImage" *ngIf="currentImage" /> -->
+      <img [src]="currentImage" *ngIf="currentImage" />
     </ion-card-content>
   </ion-card>
   <br />
@@ -48,11 +48,11 @@
     </ion-list-header>
     <ion-item>
       <ion-label>{{ grp1 }}</ion-label>
-      <ion-toggle value=""></ion-toggle>
+      <ion-toggle value="" [disabled]="isenabled1" [(ngModel)]="toggle1"></ion-toggle>
     </ion-item>
     <ion-item>
       <ion-label>{{ grp2 }}</ion-label>
-      <ion-toggle value=""></ion-toggle>
+      <ion-toggle value="" [disabled]="isenabled2" [(ngModel)]="toggle2"></ion-toggle>
     </ion-item>
   </ion-list>
   <br />

@@ -5,7 +5,6 @@ import { LandingmodalPage } from '../landingmodal/landingmodal';
 import { GenchatPage } from '../genchat/genchat';
 import { RemoteServiceProvider } from '../../providers/remote-service/remote-service';
 import 'rxjs/add/operator/map';
-//import * as $ from 'jquery';
 
 @Component({
   selector: 'page-landing',
@@ -251,6 +250,9 @@ export class LandingPage {
   presentModal() {
     //let modal = this.modalCtrl.create(LandingmodalPage, {strjson: this.strjson});
     //modal.present();
+
+    console.log('landing : This is the userId ' + this.userId);
+
     let modal = this.modalCtrl.create(LandingmodalPage, {"strjson": this.strjson, "userId": this.userId});
     modal.present(modal);
   }

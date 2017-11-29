@@ -43,9 +43,43 @@ export class RemoteServiceProvider {
              });
   }
 
+  sendChatMessage(typeId: string, message: string, createdBy: string, deviceId: string, subLocId: string, addressId: string) {
+    var endpoint = this.getAPIURL + '/submitMessage';
+    let headers = this._getHeaders();
+
+    // console.log(jsonMsg);
+
+    return this.http.post(endpoint,
+            {'typeId':typeId, 'message':message, 'createdBy':createdBy, 'deviceId':deviceId, 'subLocId':subLocId, 'addressId':addressId},
+            headers)
+	           .do(function(data) {
+               console.log(data);
+             });
+  }
+
+  sendImage(filePath: string) {
+    var endpoint = this.getAPIURL + '/upload';
+    let headers = this._getHeaders2();
+
+    // console.log(jsonMsg);
+
+    return this.http.post(endpoint,
+                          {'filename':filePath},
+                          headers)
+	                  .do(function(data) {
+                        console.log(data);
+                      });
+  }
+
   _getHeaders() {
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
+    return headers;
+  }
+
+  _getHeaders2() {
+    let headers = new Headers();
+    headers.append('Content-Type', 'multipart/form-data');
     return headers;
   }
 }

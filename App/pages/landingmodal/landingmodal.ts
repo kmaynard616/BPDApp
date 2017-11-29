@@ -53,7 +53,7 @@ export class LandingmodalPage {
       {
         this.firstName = (<any>this.items).firstName;
         this.lastName = (<any>this.items).lastName;
-        this.userId= (<any>this.items).userId;
+        // this.userId= (<any>this.items).userId;
 
         if ((<any>this.items).subscriptionLocation.length == 1)
         {
@@ -135,6 +135,7 @@ export class LandingmodalPage {
     //     this.viewCtrl.dismiss();
     //   }
     // });
+    console.log('landingmodal : This is the userId ' + this.userId);
 
     this.app.getRootNav().setRoot(GenchatPage, {"strjson": this.strjson, "userId": this.userId});
     this.viewCtrl.dismiss();
