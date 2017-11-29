@@ -132,15 +132,15 @@ public class AppService {
 	}
 	
 	/**
-	 * get Attatchments
+	 * get Attachments
 	 * @throws SQLException 
 	 */
 	@GET
-	@Path("/download/attatchemet/{id}")
+	@Path("/download/attachemet/{id}")
 	@Produces(MediaType.APPLICATION_OCTET_STREAM)
-	public Response getAttachmentByID(@PathParam("id")  int msgId) throws IOException, SQLException {
+	public Response getAttachmentByID(@PathParam("id")  int attachmentId) throws IOException, SQLException {
 	  
-	  Response response = bpdDAO.getAttatchment(msgId);
+	  Response response = bpdDAO.getAttatchment(attachmentId);
 	  return response;
 	} 
 	
