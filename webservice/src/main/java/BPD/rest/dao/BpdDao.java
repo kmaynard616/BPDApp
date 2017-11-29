@@ -19,5 +19,5 @@ public interface BpdDao {
 	public void uploadAttatchment(InputStream uploadedInputStream, String messageId);
 	public String uploadMessage(BpdAppMessage message);
 	public ArrayList<ReturnMessage> getUserMessages(int user);
-	public Response getAttatchment(int id) throws SQLException;
+	public Response getAttachment(int id) throws SQLException;
 }
