@@ -105,10 +105,6 @@ export class ModalPage {
         {
           this.grp1 = (<any>this.items).subscriptionLocation[0];
           this.grpCt = 1;
-
-          // Set the verbiage for the card
-          // this.strgroup = 'group';
-          // this.strgroupmsg = 'Would you like to continue with this group?'
         }
         else if ((<any>this.items).subscriptionLocation.length == 2)
         {
@@ -116,11 +112,6 @@ export class ModalPage {
           this.grp1 = (<any>this.items).subscriptionLocation[0];
           this.grp2 = (<any>this.items).subscriptionLocation[1];
           this.grpCt = 2;
-
-          // Set the verbiage for the card
-          // this.strand = ' and ';
-          // this.strgroup = 'groups';
-          // this.strgroupmsg = 'Would you like to continue with these groups?'
         }
       }
     }
@@ -160,7 +151,6 @@ export class ModalPage {
   }
 
   dismiss() {
-    //this.viewCtrl.dismiss();
     this.navCtrl.pop();
   }
 
@@ -185,8 +175,6 @@ export class ModalPage {
         // 2. Set the chat as the root so that we navigate there and
         // do not see the back arrow
         this.getUserInfo(this.userId);
-
-        // this.gotochat();
       }
     });
   }
@@ -232,8 +220,6 @@ export class ModalPage {
             }
 
             this.gotochat();
-
-            //this.loadScreen();
         });
     }
 
@@ -253,9 +239,7 @@ export class ModalPage {
     // Please note that this command is not supported in the browser.
     // This command will throw an error. However, when run on the phone
     // this command will close the app. Also, this may change for Sprint 2.
-    //navigator['app'].exitApp();
     this.viewCtrl.dismiss();
-    //this.navCtrl.pop();
   }
 
   // This function will keep track of the groups that have been selected
@@ -507,5 +491,4 @@ export class ModalPage {
 
     return retVal;
   }
-
 }

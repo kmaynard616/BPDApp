@@ -1,6 +1,6 @@
 <ion-content>
   <ion-card>
-    <img class="shrunk-img" src="https://maps.baltimorepolice.org/flexviewer/chatpics/Max.jpg"/>
+    <img class="shrunk-img" [src]="getCreator()" />
     <ion-card-content>
       <ion-card-title>
         {{firstName}} {{lastName}}

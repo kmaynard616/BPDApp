@@ -92,15 +92,6 @@ export class LandingmodalPage {
   gotochat() {
     // 1. Record the timestamp and grop selections
     this.updateUserInfo();
-
-    // 2. Navigate to the chat
-    //this.viewCtrl.dismiss();
-    //this.navCtrl.setRoot(GenchatPage);
-    //this.app.getRootNav().push(GenchatPage);
-    // this.zone.run(() => {
-    //   this.navCtrl.setRoot(GenchatPage);
-    // });
-
   }
 
   ionViewDidLoad() {
@@ -119,26 +110,37 @@ export class LandingmodalPage {
       this.grp2num = this.getgrpnum(this.group2);
     }
 
-    // // 1. Record the timestamp and grop selections
-    // this.remoteService.updateUserSubscriptions(this.userId, this.grp1num, this.grp2num).subscribe((data) => {
-    //   console.log(data);
-    //
-    //   // Make sure it was successful
-    //   if ((<any>data).status == '200')
-    //   {
-    //     // 2. Set the chat as the root so that we navigate there and
-    //     // do not see the back arrow
-    //     //this.gotochat();
-    //     //this.app.getRootNav().push(GenchatPage);
-    //     //this.navCtrl.setRoot(GenchatPage);
-    //     this.app.getRootNav().setRoot(GenchatPage);
-    //     this.viewCtrl.dismiss();
-    //   }
-    // });
     console.log('landingmodal : This is the userId ' + this.userId);
 
     this.app.getRootNav().setRoot(GenchatPage, {"strjson": this.strjson, "userId": this.userId});
     this.viewCtrl.dismiss();
+  }
+
+  getCreator() {
+    if (this.userId == "1") {
+        return 'https://www.baltimorepolice.org/sites/default/files/styles/croped_photo/public/images/sheri-sturm.jpg?itok=fUFqAUTU'
+    }
+    else if (this.userId == "2") {
+        return 'http://www.trbimg.com/img-574eddd6/turbine/bs-md-ci-crystal-settlement-20160601';
+    }
+    else if (this.userId == "3") {
+        return 'https://www.baltimorepolice.org/sites/default/files/styles/croped_photo/public/images/Recruitment-james-handley.jpg?itok=fFk1SneZ';
+    }
+    else if (this.userId == "4") {
+        return 'https://www.baltimorepolice.org/sites/default/files/styles/croped_photo/public/images/Chris-Jones.jpg?itok=4o9j1AA4';
+    }
+    else if (this.userId == "5") {
+        return 'https://www.baltimorepolice.org/sites/default/files/styles/croped_photo/public/images/7.%20laTonya%20Lewis.jpg?itok=R_DafVvm';
+    }
+    else if (this.userId == "6") {
+        return 'https://www.baltimorepolice.org/sites/default/files/styles/croped_photo/public/images/Hatchett.jpg?itok=S6-XpaX-';
+    }
+    else if (this.userId == "7") {
+        return 'https://maps.baltimorepolice.org/flexviewer/chatpics/Henry.jpg';
+    }
+    else if (this.userId == "8") {
+        return 'https://maps.baltimorepolice.org/flexviewer/chatpics/Esteban.jpg';
+    }
   }
 
   getgrpnum(objName)
@@ -194,5 +196,4 @@ export class LandingmodalPage {
 
     return retVal;
   }
-
 }

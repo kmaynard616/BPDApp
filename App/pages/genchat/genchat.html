@@ -21,7 +21,6 @@
 
 <ion-content padding>
 
-
   <!-- <ion-card class="fi messageRight">
     <ion-item class="fiheader">
       <ion-avatar item-start>
@@ -83,30 +82,16 @@
     <ion-card *ngFor="let post of postList" [class]="applyClass(post)">
       <ion-item [class]="applyHeaderclass(post)">
         <ion-avatar item-start>
-          <img src="https://maps.baltimorepolice.org/flexviewer/chatpics/Max.jpg">
+          <img [src]="getCreator(post)">
         </ion-avatar>
         <h2 [class]="applyH2class(post)">{{ post.firstName }} {{ post.lastName }}</h2>
         <p [class]="applyPclass(post)">{{ post.dateCreated }} {{ post.timeCreated }}</p>
       </ion-item>
 
+      <img [src]="getAttachment(post)" />
+
       <ion-card-content>
         <p>{{ post.message }}</p>
       </ion-card-content>
     </ion-card>
-
-  <!-- <h2>Chat Messages</h2> -->
-  <!-- <ion-list>
-    <ion-item *ngFor="let post of postList">
-    {{ post }}
-    </ion-item>
-  </ion-list> -->
 </ion-content>
-
-
-
-<!-- <ion-footer>
-      <ion-item>
-        <ion-input type="text" [(ngModel)]="message"></ion-input>
-        <button ion-button large item-end icon-right (click)="sendmessage()"><ion-icon name="send"></ion-icon></button>
-      </ion-item>
-</ion-footer> -->

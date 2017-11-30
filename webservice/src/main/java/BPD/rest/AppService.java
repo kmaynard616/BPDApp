@@ -141,7 +141,8 @@ public class AppService {
 	 */
 	@GET
 	@Path("/download/attachemet/{id}")
-	@Produces(MediaType.APPLICATION_OCTET_STREAM)
+	//@Produces(MediaType.APPLICATION_OCTET_STREAM)
+	@Produces("image/jpeg")
 	public Response getAttachmentByID(@PathParam("id")  int attachmentId) throws IOException, SQLException {
 	  
 	  Response response = bpdDAO.getAttachment(attachmentId);

@@ -1,5 +1,7 @@
 package BPD.rest.dao;
 
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -14,6 +16,7 @@ import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import javax.imageio.ImageIO;
 import javax.sql.DataSource;
 
 
@@ -329,17 +332,25 @@ public class BpdDaoImpl implements BpdDao{
 		        
 		        final InputStream in = result.getBinaryStream("blob");
 		        
-		        ByteArrayOutputStream out = new ByteArrayOutputStream();
-		        int data = in.read();
-		        while (data >= 0) {
-		          out.write((char) data);
-		          data = in.read();
-		        }
-		        out.flush();
+		        BufferedImage image = ImageIO.read(in);
+		        
+		        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		        ImageIO.write(image, "png", baos);
+		        byte[] imageData = baos.toByteArray();
+		        
+		        //return Response.ok(new ByteArrayInputStream(imageData)).build();
+		        //ByteArrayOutputStream out = new ByteArrayOutputStream();
+		        //int data = in.read();
+		        //while (data >= 0) {
+		        //  out.write((char) data);
+		        //  data = in.read();
+		        //}
+		        //out.flush();
 		          
-		        ResponseBuilder builder = Response.ok(out.toByteArray());
-		        builder.header("Content-Disposition", "attachment; blobType=" + blobType);
-		        response = builder.build();
+		        //ResponseBuilder builder = Response.ok(out.toByteArray());
+		        //builder.header("Content-Disposition", "attachment; blobType=" + blobType);
+		        //response = builder.build();
+		        response = Response.ok(new ByteArrayInputStream(imageData)).build();
 		      } else {
 		        logger.info("Unable to find record with ID: " + id);
 		        response = Response.status(404).

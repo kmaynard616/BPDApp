@@ -6,8 +6,6 @@ import 'rxjs/add/operator/catch';
 
 @Injectable()
 export class RemoteServiceProvider {
-  //getAPIURL: string = 'http://localhost:5000/v1';
-  //getAPIURL: string = 'http://localhost:8080/webservice/v1/bpd';
   getAPIURL: string = 'http://192.168.0.20:8080/webservice/v1/bpd';
 
   constructor(public http: Http) {
@@ -29,7 +27,6 @@ export class RemoteServiceProvider {
     var body = {userId: userId};
     var endpoint = this.getAPIURL + '/updateUserSettings';
     let headers = this._getHeaders();
-    //int opt1 = 0;
 
     console.log('UserId: ' + userId);
     console.log('grp1: ' + grp1);
@@ -46,8 +43,6 @@ export class RemoteServiceProvider {
   sendChatMessage(typeId: string, message: string, createdBy: string, deviceId: string, subLocId: string, addressId: string) {
     var endpoint = this.getAPIURL + '/submitMessage';
     let headers = this._getHeaders();
-
-    // console.log(jsonMsg);
 
     return this.http.post(endpoint,
             {'typeId':typeId, 'message':message, 'createdBy':createdBy, 'deviceId':deviceId, 'subLocId':subLocId, 'addressId':addressId},
@@ -66,29 +61,9 @@ export class RemoteServiceProvider {
                         });
   }
 
-  // sendImage(filePath: string) {
-  //   var endpoint = this.getAPIURL + '/upload';
-  //   let headers = this._getHeaders2();
-  //
-  //   // console.log(jsonMsg);
-  //
-  //   return this.http.post(endpoint,
-  //                         {'filename':filePath},
-  //                         headers)
-	//                   .do(function(data) {
-  //                       console.log(data);
-  //                     });
-  // }
-
   _getHeaders() {
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
     return headers;
   }
-
-  // _getHeaders2() {
-  //   let headers = new Headers();
-  //   headers.append('Content-Type', 'multipart/form-data');
-  //   return headers;
-  // }
 }
