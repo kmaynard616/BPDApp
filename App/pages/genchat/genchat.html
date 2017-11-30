@@ -20,7 +20,9 @@
 </ion-content>
 
 <ion-content padding>
-  <ion-card class="fi messageRight">
+
+
+  <!-- <ion-card class="fi messageRight">
     <ion-item class="fiheader">
       <ion-avatar item-start>
         <img src="https://maps.baltimorepolice.org/flexviewer/chatpics/Max.jpg">
@@ -76,7 +78,21 @@
     <ion-card-content>
       <p>Awesome, count me in for the tournament.</p>
     </ion-card-content>
-  </ion-card>
+  </ion-card> -->
+
+    <ion-card *ngFor="let post of postList" [class]="applyClass(post)">
+      <ion-item [class]="applyHeaderclass(post)">
+        <ion-avatar item-start>
+          <img src="https://maps.baltimorepolice.org/flexviewer/chatpics/Max.jpg">
+        </ion-avatar>
+        <h2 [class]="applyH2class(post)">{{ post.firstName }} {{ post.lastName }}</h2>
+        <p [class]="applyPclass(post)">{{ post.dateCreated }} {{ post.timeCreated }}</p>
+      </ion-item>
+
+      <ion-card-content>
+        <p>{{ post.message }}</p>
+      </ion-card-content>
+    </ion-card>
 
   <!-- <h2>Chat Messages</h2> -->
   <!-- <ion-list>

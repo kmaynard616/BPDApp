@@ -57,19 +57,28 @@ export class RemoteServiceProvider {
              });
   }
 
-  sendImage(filePath: string) {
-    var endpoint = this.getAPIURL + '/upload';
-    let headers = this._getHeaders2();
+  getMessages(userId: string) {
+    var endpoint = this.getAPIURL + '/getMessages/' + userId;
 
-    // console.log(jsonMsg);
-
-    return this.http.post(endpoint,
-                          {'filename':filePath},
-                          headers)
-	                  .do(function(data) {
-                        console.log(data);
-                      });
+    return this.http.get(endpoint)
+  	                  .do(function(data) {
+                          console.log(data);
+                        });
   }
+
+  // sendImage(filePath: string) {
+  //   var endpoint = this.getAPIURL + '/upload';
+  //   let headers = this._getHeaders2();
+  //
+  //   // console.log(jsonMsg);
+  //
+  //   return this.http.post(endpoint,
+  //                         {'filename':filePath},
+  //                         headers)
+	//                   .do(function(data) {
+  //                       console.log(data);
+  //                     });
+  // }
 
   _getHeaders() {
     let headers = new Headers();
@@ -77,9 +86,9 @@ export class RemoteServiceProvider {
     return headers;
   }
 
-  _getHeaders2() {
-    let headers = new Headers();
-    headers.append('Content-Type', 'multipart/form-data');
-    return headers;
-  }
+  // _getHeaders2() {
+  //   let headers = new Headers();
+  //   headers.append('Content-Type', 'multipart/form-data');
+  //   return headers;
+  // }
 }

@@ -70,9 +70,88 @@ export class GenchatPage {
   //       });
   //   }
 
+  getMessages() {
+    this.remoteService.getMessages(this.userId).subscribe((data) => {
+        // Log the data
+        console.log(data);
+        var viewData = {
+          msgCard : []
+        };
+
+        var rowNum = -1;
+
+        var temp = JSON.parse(<any>data._body);
+
+        for(let obj of temp) {
+          rowNum = rowNum + 1;
+          viewData.msgCard.push({});
+          viewData.msgCard[rowNum]['dateCreated'] = obj.dateCreated;
+          viewData.msgCard[rowNum]['createdBy'] = obj.createdBy;
+          viewData.msgCard[rowNum]['message'] = obj.message;
+          viewData.msgCard[rowNum]['lastName'] = obj.lastName;
+          viewData.msgCard[rowNum]['firstName'] = obj.firstName;
+          viewData.msgCard[rowNum]['timeCreated'] = obj.timeCreated;
+
+          if (obj.messageType == '1') {
+            viewData.msgCard[rowNum]['messageType'] = 'general';
+          }
+          else {
+            viewData.msgCard[rowNum]['messageType'] = 'fi';
+          }
+
+          if (this.userId == obj.createdBy.toString()) {
+            viewData.msgCard[rowNum]['messagePosition'] = 'messageRight';
+          }
+          else {
+            viewData.msgCard[rowNum]['messagePosition'] = 'messageLeft';
+          }
+        }
+
+        console.log(viewData);
+
+        // this.postList = JSON.parse(data._body);
+        this.postList = viewData.msgCard;
+        // for(let obj of <any>data._body) {
+        //
+        // }
+      });
+  }
+
+  applyClass(post) {
+    return post.messageType + ' ' + post.messagePosition + ' card card-md';
+  }
+
+  applyHeaderclass(post) {
+    if (post.messageType == 'fi') {
+      return 'fiheader item item-block item-md';
+    }
+    else {
+      return 'item item-block item-md';
+    }
+  }
+
+  applyH2class(post) {
+    if (post.messageType == 'fi') {
+      return 'h2fi';
+    }
+    else {
+      return 'h2gen';
+    }
+  }
+
+  applyPclass(post) {
+    if (post.messageType == 'fi') {
+      return 'pfi';
+    }
+    else {
+      return 'pgen';
+    }
+  }
+
   ionViewDidLoad() {
     console.log('ionViewDidLoad GenchatPage');
     // this.getPosts();
+    this.getMessages();
 
   }
 
