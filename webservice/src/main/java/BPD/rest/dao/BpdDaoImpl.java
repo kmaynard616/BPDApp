@@ -272,7 +272,7 @@ public class BpdDaoImpl implements BpdDao{
 			}
 			rs.close();
 			ps1.close();
-			logger.debug("GetMessages primaryId  " + primaryId + "secondaryID " + secondaryId);
+			logger.debug("GetMessages primaryId " + primaryId + ", secondaryID " + secondaryId);
 			logger.debug("GetMessages SQL " + sql);
 			PreparedStatement ps2 = conn.prepareStatement(sql);
 			ps2.setInt(1, primaryId);
@@ -281,7 +281,8 @@ public class BpdDaoImpl implements BpdDao{
 			ResultSet rs2 = ps2.executeQuery();
 			ArrayList<ReturnMessage> returnList = new ArrayList<ReturnMessage>();
 			while(rs2.next()) {
-				ReturnMessage rm = new ReturnMessage(rs2.getInt("USER_ID"), rs2.getString("Message"), rs2.getDate("DATE_CREATED"));
+				ReturnMessage rm = new ReturnMessage(rs2.getInt("USER_ID"), rs2.getString("Message"), rs2.getDate("DATE_CREATED"), 
+						rs2.getString("LAST_NAME"), rs2.getString("FIRST_NAME"), rs2.getString("TIME_MESSAGE_CREATED"), rs2.getString("MESSAGE_TYPE_ID"));
 				rm.setAttatchmentId(rs2.getInt("ATTACHMENT_ID"));
 				returnList.add(rm);
 				

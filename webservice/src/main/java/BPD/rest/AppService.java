@@ -74,6 +74,10 @@ public class AppService {
 			jo.put("message", msg.getMessage());
 			jo.put("dateCreated", msg.getDateCreated());
 			jo.put("attatchmentId", msg.getAttatchmentId());
+			jo.put("lastName", msg.getLastName());
+			jo.put("firstName", msg.getFirstName());
+			jo.put("timeCreated", msg.getTimeCreated());
+			jo.put("messageType", msg.getMessageType());
 			ja.put(jo);
 		}
 		
