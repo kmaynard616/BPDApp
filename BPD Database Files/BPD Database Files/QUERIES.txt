@@ -1,0 +1,42 @@
+//-----------------------------------------------------------------------------------------------------
+//This query will retrieve all of the chat messages that the user has access to.  FLORESB would be a
+//parameter in which you would substitute the user name.  You could also write this where you
+//are passing in the user id as well
+//-----------------------------------------------------------------------------------------------------
+
+SELECT * FROM CHAT_MESSAGES_VIEW
+WHERE MESSAGE_LOCATION_ID = 
+(SELECT PRIMARY_SUB_LOC_ID FROM USER_SUBSCRIPTION_VIEW WHERE USER_NAME = 'FLORESB')
+OR SECONDARY_LOCATION_ID = 
+(SELECT PRIMARY_SUB_LOC_ID FROM USER_SUBSCRIPTION_VIEW WHERE USER_NAME = 'FLORESB')
+OR MESSAGE_LOCATION_ID = 
+(SELECT SECONDARY_SUB_LOC_ID FROM USER_SUBSCRIPTION_VIEW WHERE USER_NAME = 'FLORESB')
+OR SECONDARY_LOCATION_ID = 
+(SELECT SECONDARY_SUB_LOC_ID FROM USER_SUBSCRIPTION_VIEW WHERE USER_NAME = 'FLORESB')
+ORDER BY DATE_CREATED, TIME_MESSAGE_CREATED
+
+//----------------------------------------------------------------------------------------------------
+
+
+//----------------------------------------------------------------------------------------------------
+//This query will retrieve all of the chat messages that the user has access to that have been created
+//within the last 24 hours.  FLORESB would be the parameter in which you would substitute the user
+//name.  You could also write this where you are passing in the user id as well
+//----------------------------------------------------------------------------------------------------
+
+SELECT * FROM CHAT_MESSAGES_VIEW
+WHERE DATE_CREATED >= SYSDATE - 1
+AND MESSAGE_LOCATION_ID = 
+(SELECT PRIMARY_SUB_LOC_ID FROM USER_SUBSCRIPTION_VIEW WHERE USER_NAME = 'FLORESB')
+OR SECONDARY_LOCATION_ID = 
+(SELECT PRIMARY_SUB_LOC_ID FROM USER_SUBSCRIPTION_VIEW WHERE USER_NAME = 'FLORESB')
+OR MESSAGE_LOCATION_ID = 
+(SELECT SECONDARY_SUB_LOC_ID FROM USER_SUBSCRIPTION_VIEW WHERE USER_NAME = 'FLORESB')
+OR SECONDARY_LOCATION_ID = 
+(SELECT SECONDARY_SUB_LOC_ID FROM USER_SUBSCRIPTION_VIEW WHERE USER_NAME = 'FLORESB')
+ORDER BY DATE_CREATED, TIME_MESSAGE_CREATED
+
+//----------------------------------------------------------------------------------------------------
+
+
+
