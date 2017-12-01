@@ -69,7 +69,7 @@ export class GenchatPage {
     let modal = this.modalCtrl.create(CreatemsgPage, {"strjson": this.strjson, "userId": this.userId});
 
     modal.onDidDismiss(() => {
-        this.getMessages();
+        setTimeout(() => this.getMessages(), 3000);
     });
 
     modal.present();

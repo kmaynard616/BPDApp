@@ -72,7 +72,10 @@ export class LandingPage {
     // Set the platform
     this.platform = platform;
 
-    this.userId = '6';
+    //******************************************************
+    // This is the user that is currently logged into the app
+    //******************************************************
+    this.userId = '2';
 
     this.getUserInfo(this.userId);
   }

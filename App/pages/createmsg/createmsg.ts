@@ -132,7 +132,7 @@ export class CreatemsgPage {
 
   getImage() {
     const options: CameraOptions = {
-      quality: 100,
+      quality: 50,
       destinationType: this.camera.DestinationType.DATA_URL,
       encodingType: this.camera.EncodingType.JPEG,
       mediaType: this.camera.MediaType.PICTURE,
@@ -172,6 +172,8 @@ export class CreatemsgPage {
   }
 
   sendChat() {
+    var msgId = -1;
+
     // Let the user know what is going on
     let myLoader = this.loadingCtrl.create({
       content: "Uploading Chat..."
@@ -181,21 +183,15 @@ export class CreatemsgPage {
     myLoader.present();
 
     // Send the message
-    this.sendMsg();
-
-    if (this.currentImage != null)
-    {
-      // Send the image
-      this.sendPicture(myLoader);
-    }
+    this.sendMsg(myLoader);
 
     this.presentToast('Message sent');
     myLoader.dismiss();
 
-    // this.viewCtrl.dismiss();
+    this.viewCtrl.dismiss();
   }
 
-  sendMsg() {
+  sendMsg(myLoader) {
     // Check for the first subscription
     if (this.toggle1 == true)
     {
@@ -223,6 +219,14 @@ export class CreatemsgPage {
         {
           // Store the id for the first message
           this.messageId1 = (<any>data)._body;
+
+          console.log('messageId1 : ' + this.messageId1);
+
+          if (this.currentImage != null)
+          {
+            // Send the image
+            this.sendPicture(myLoader, this.messageId1);
+          }
 
           // Check for the second subscription
           if (this.toggle2 == true)
@@ -252,30 +256,45 @@ export class CreatemsgPage {
                 // Store the message id for the second message
                 this.messageId2 = (<any>data)._body;
 
-                this.viewCtrl.dismiss();
+                console.log('messageId2 : ' + this.messageId2);
+
+                if (this.currentImage != null)
+                {
+                  // Send the image
+                  this.sendPicture(myLoader, this.messageId2);
+                }
               }
-              else
-              {
-                this.viewCtrl.dismiss();
+              else {
+
               }
             });
           }
-          else
-          {
-            this.viewCtrl.dismiss();
+          else {
+
           }
         }
       });
     }
   }
 
-  sendPicture(myLoader) {
-    var sendImage = new Image();
-    sendImage.src = this.currentImage;
+  sendPicture(myLoader, myId) {
+    // Split the base64 string in data and contentType
+    var block = this.currentImage.split(";");
+
+    // Get the content type of the image
+    var contentType = block[0].split(":")[1];
+
+    // get the real base64 content of the file
+    var realData = block[1].split(",")[1];
+
+    // Convert it to a blob to upload
+    var blob = this.b64toBlob(realData, contentType, 512);
 
     var fd = new FormData();
+    fd.append('messageId', myId.toString());
     fd.append('filename', 'test_file.jpeg');
-    fd.append('file', sendImage.toString());
+    fd.append('file', blob);
+
     $.ajax({
         type: 'POST',
         url: 'http://192.168.0.20:8080/webservice/v1/bpd/upload',
@@ -283,14 +302,39 @@ export class CreatemsgPage {
         processData: false,
         contentType: false,
         success: function (data) {
-                 // console.log(data);
+                 console.log(data);
                  this.presentToast('File Uploaded');
           },
         error: function (jqXHR, exception) {
           console.log('Status: ' + jqXHR.status + ', Response: ' + jqXHR.responseText);
+          //alert('Status: ' + jqXHR.status + ', Response: ' + jqXHR.responseText);
         }
     });
   }
+
+  b64toBlob(b64Data, contentType, sliceSize) {
+        contentType = contentType || '';
+        sliceSize = sliceSize || 512;
+
+        var byteCharacters = atob(b64Data);
+        var byteArrays = [];
+
+        for (var offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+            var slice = byteCharacters.slice(offset, offset + sliceSize);
+
+            var byteNumbers = new Array(slice.length);
+            for (var i = 0; i < slice.length; i++) {
+                byteNumbers[i] = slice.charCodeAt(i);
+            }
+
+            var byteArray = new Uint8Array(byteNumbers);
+
+            byteArrays.push(byteArray);
+        }
+
+      var blob = new Blob(byteArrays, {type: contentType});
+      return blob;
+    }
 
   presentToast(msg) {
     let toast = this.toastCtrl.create({
