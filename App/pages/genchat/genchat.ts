@@ -132,7 +132,7 @@ export class GenchatPage {
       });
 
       // Scroll to the bottom
-      this.content.scrollToBottom();
+      //this.content.scrollToBottom();
   }
 
   getAttachment(post) {
