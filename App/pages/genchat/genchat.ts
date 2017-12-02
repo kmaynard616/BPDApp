@@ -79,6 +79,8 @@ export class GenchatPage {
     this.remoteService.getMessages(this.userId).subscribe((data) => {
         // Log the data
         console.log(data);
+
+        // Create an object that will receive the information received fromt he server
         var viewData = {
           msgCard : []
         };
@@ -98,11 +100,20 @@ export class GenchatPage {
 
         var temp = JSON.parse((<any>data)._body);
 
+        // Loop through the objects that were returned from the server
         for(let obj of temp) {
+          // Put the message date and time into the proper object
           msgDate = new Date(obj.dateCreated + ' ' + obj.timeCreated);
+
+          // Check to see if we should put the current object into the arrray
           if (msgDate >= now) {
+            // Increase the object count
             rowNum = rowNum + 1;
+
+            // Put in a blank object
             viewData.msgCard.push({});
+
+            // Put in the general information
             viewData.msgCard[rowNum]['dateCreated'] = obj.dateCreated;
             viewData.msgCard[rowNum]['createdBy'] = obj.createdBy;
             viewData.msgCard[rowNum]['message'] = obj.message;
@@ -110,29 +121,34 @@ export class GenchatPage {
             viewData.msgCard[rowNum]['firstName'] = obj.firstName;
             viewData.msgCard[rowNum]['timeCreated'] = obj.timeCreated;
 
+            // Check to see the message type
             if (obj.messageType == '1') {
+              // This is a general message
               viewData.msgCard[rowNum]['messageType'] = 'general';
             }
             else {
+              // This is a field intellignece message and needs the class to be highlighted
               viewData.msgCard[rowNum]['messageType'] = 'fi';
             }
 
+            // Check to see who created the image for the placement of the card
             if (this.userId == obj.createdBy.toString()) {
+              // This is from the current user
               viewData.msgCard[rowNum]['messagePosition'] = 'messageRight';
             }
             else {
+              // Add in the class
               viewData.msgCard[rowNum]['messagePosition'] = 'messageLeft';
             }
 
+            // Add the id to the attachment to be pulled back
             viewData.msgCard[rowNum]['attatchmentId'] = obj.attatchmentId;
           }
 
+          // Store the JSON array
           this.postList = viewData.msgCard;
           }
       });
-
-      // Scroll to the bottom
-      //this.content.scrollToBottom();
   }
 
   getAttachment(post) {
