@@ -174,21 +174,29 @@ export class CreatemsgPage {
   sendChat() {
     var msgId = -1;
 
-    // Let the user know what is going on
-    let myLoader = this.loadingCtrl.create({
-      content: "Uploading Chat..."
-    });
+    if ((this.toggle1 == true) || (this.toggle2 == true))
+    {
+      // Let the user know what is going on
+      let myLoader = this.loadingCtrl.create({
+        content: "Uploading Chat..."
+      });
 
-    // Show the message
-    myLoader.present();
+      // Show the message
+      myLoader.present();
 
-    // Send the message
-    this.sendMsg(myLoader);
+      // Send the message
+      this.sendMsg(myLoader);
 
-    this.presentToast('Message sent');
-    myLoader.dismiss();
+      this.presentToast('Message sent');
+      myLoader.dismiss();
 
-    this.viewCtrl.dismiss();
+      this.viewCtrl.dismiss();
+    }
+    else
+    {
+      this.presentToast('Choose a Subscription');
+    }
+
   }
 
   sendMsg(myLoader) {
