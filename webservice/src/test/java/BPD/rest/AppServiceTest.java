@@ -78,13 +78,4 @@ public class AppServiceTest {
         assertNotNull(expected, response.getEntity());
     }
 
-//    @Test
-//    public void submitUserTest() {
-//        String data = "test data";
-//        String expected = "Post data is "+data;
-//        Response response = appService.submitUser(data);
-//        assertEquals(200, response.getStatus());
-//        assertNotNull(response.getEntity());
-//        assertNotNull(expected, response.getEntity());
-//    }
 }

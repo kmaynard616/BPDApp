@@ -1,11 +1,13 @@
 package BPD.rest.dao;
 
+import BPD.rest.dao.model.BpdAppMessage;
 import BPD.rest.dao.model.User;
 import BPD.rest.dao.model.UserSelection;
 import static org.junit.Assert.*;
 import static org.mockito.Matchers.*;
 import static org.mockito.Mockito.*;
 
+import java.io.ByteArrayInputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -19,6 +21,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
 
@@ -44,7 +47,8 @@ public class BpdDaoImplTest {
         System.out.println(dataSource);
         when(dataSource.getConnection()).thenReturn(connection);
         when(connection.prepareStatement(any(String.class))).thenReturn(stmt);
-
+        when(connection.prepareStatement(any(String.class), Mockito.any(String[].class))).thenReturn(stmt);
+        when(stmt.getGeneratedKeys()).thenReturn(resultSet);
 
         user = new User();
         user.setFirst_name("John");
@@ -70,6 +74,7 @@ public class BpdDaoImplTest {
         when(resultSet.getString("SUBSCRIPTION_LOCATION")).thenReturn("Location 1");
         when(resultSet.getString("SUBSCRIPTION_LOC_DESC")).thenReturn("Location 1 Desc");
         when(stmt.executeQuery()).thenReturn(resultSet);
+        when(stmt.executeUpdate()).thenReturn(1);
     }
 
     @Test
@@ -93,6 +98,29 @@ public class BpdDaoImplTest {
         us.setPrimaryLocationId(2);
         us.setSecondaryLocationId(3);
         bpdDao.updateUserDevices(us);
+        assert true;
+    }
+
+    @Test
+    public void uploadMessage(){
+        BpdDaoImpl bpdDao = new BpdDaoImpl();
+        bpdDao.setDataSource(dataSource);
+        BpdAppMessage message = new BpdAppMessage();
+        message.setAddressId(1);
+        message.setCreatedBy(1);
+        message.setDeviceId(1);
+        message.setMessage("Test");
+        message.setSubLocId(1);
+        message.setTypeId(1);
+        bpdDao.uploadMessage(message);
+        assert true;
+    }
+
+    @Test
+    public void uploadAttachment(){
+        BpdDaoImpl bpdDao = new BpdDaoImpl();
+        bpdDao.setDataSource(dataSource);
+        bpdDao.uploadAttatchment(new ByteArrayInputStream("test data".getBytes()), "1");
         assert true;
     }
 
