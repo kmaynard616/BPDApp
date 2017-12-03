@@ -32,12 +32,25 @@ export class RemoteServiceProvider {
     console.log('grp1: ' + grp1);
     console.log('grp2: ' + grp2);
 
-    return this.http.post(endpoint,
-            {'userId':parseInt(userId), 'primaryLocationId':parseInt(grp1),'secondaryLocationId':parseInt(grp2)},
-            headers)
-	           .do(function(data) {
-               console.log(data);
-             });
+    if (grp2 != '')
+    {
+      return this.http.post(endpoint,
+              {'userId':parseInt(userId), 'primaryLocationId':parseInt(grp1),'secondaryLocationId':parseInt(grp2)},
+              headers)
+  	           .do(function(data) {
+                 console.log(data);
+               });
+    }
+    else
+    {
+      return this.http.post(endpoint,
+              {'userId':parseInt(userId), 'primaryLocationId':parseInt(grp1)},
+              headers)
+  	           .do(function(data) {
+                 console.log(data);
+               });
+    }
+
   }
 
   sendChatMessage(typeId: string, message: string, createdBy: string, deviceId: string, subLocId: string, addressId: string) {

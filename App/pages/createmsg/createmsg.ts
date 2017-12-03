@@ -284,6 +284,50 @@ export class CreatemsgPage {
         }
       });
     }
+    else
+    {
+      // Check for the second subscription
+      if (this.toggle2 == true)
+      {
+        // Check if this is a FI message
+        if (this.toggle0 == false)
+        {
+          // general interactive
+          this.typeId = '1';
+        }
+        else
+        {
+          // field intelligence
+          this.typeId = '2';
+        }
+
+        this.deviceId = '1';
+        this.addressId = '1';
+
+        // 1. Record the timestamp and grop selections
+        this.remoteService.sendChatMessage(this.typeId, this.message, this.userId, this.deviceId, this.grp2num, this.addressId).subscribe((data) => {
+          console.log(data);
+
+          // Make sure it was successful
+          if ((<any>data).status == '200')
+          {
+            // Store the message id for the second message
+            this.messageId2 = (<any>data)._body;
+
+            console.log('messageId2 : ' + this.messageId2);
+
+            if (this.currentImage != null)
+            {
+              // Send the image
+              this.sendPicture(myLoader, this.messageId2);
+            }
+          }
+          else {
+
+          }
+        });
+      }
+    }
   }
 
   sendPicture(myLoader, myId) {
@@ -392,22 +436,22 @@ export class CreatemsgPage {
     else if ((objName.toLowerCase() == 'southwestern district') || (objName.toLowerCase() == 'southwestern')) {
       retVal = '8';
     }
-    else if ((objName.toLowerCase() == 'ci') || (objName.toLowerCase() == 'ci')) {
+    else if ((objName.toLowerCase() == 'citywide investigation') || (objName.toLowerCase() == 'ci')) {
       retVal = '10';
     }
-    else if ((objName.toLowerCase() == 'sis') || (objName.toLowerCase() == 'sis')) {
+    else if ((objName.toLowerCase() == 'special investigations section') || (objName.toLowerCase() == 'sis')) {
       retVal = '11';
     }
     else if ((objName.toLowerCase() == 'watf') || (objName.toLowerCase() == 'watf')) {
       retVal = '12';
     }
-    else if ((objName.toLowerCase() == 'oi') || (objName.toLowerCase() == 'oi')) {
+    else if ((objName.toLowerCase() == 'operational investigation') || (objName.toLowerCase() == 'oi')) {
       retVal = '13';
     }
-    else if ((objName.toLowerCase() == 'so') || (objName.toLowerCase() == 'so')) {
+    else if ((objName.toLowerCase() == 'special operations') || (objName.toLowerCase() == 'so')) {
       retVal = '14';
     }
-    else if ((objName.toLowerCase() == 'wc') || (objName.toLowerCase() == 'wc')) {
+    else if ((objName.toLowerCase() == 'watch center') || (objName.toLowerCase() == 'wc')) {
       retVal = '15';
     }
     else
