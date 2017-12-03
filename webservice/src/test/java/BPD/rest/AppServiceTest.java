@@ -1,6 +1,8 @@
 package BPD.rest;
 import BPD.rest.dao.BpdDao;
 import BPD.rest.dao.BpdDaoImpl;
+import BPD.rest.dao.model.BpdAppMessage;
+import BPD.rest.dao.model.ReturnMessage;
 import BPD.rest.dao.model.User;
 import BPD.rest.dao.model.UserSelection;
 
@@ -9,17 +11,21 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import javax.ws.rs.core.Response;
 
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
@@ -78,4 +84,51 @@ public class AppServiceTest {
         assertNotNull(expected, response.getEntity());
     }
 
+//    @Test
+//    public void submitUserTest() {
+//        String data = "test data";
+//        String expected = "Post data is "+data;
+//        Response response = appService.submitUser(data);
+//        assertEquals(200, response.getStatus());
+//        assertNotNull(response.getEntity());
+//        assertNotNull(expected, response.getEntity());
+//    }
+
+    @Test
+    public void getUserMessages() {
+        ReturnMessage msg =new ReturnMessage();
+        ArrayList<ReturnMessage> listMsg = new ArrayList<ReturnMessage>();
+        listMsg.add(msg);
+        when(bpdDAO.getUserMessages(1)).thenReturn(listMsg);
+        Response response = appService.getUserMessages(1);
+        assertNotNull(response);
+    }
+
+    @Test
+    public void testSubmitMessage(){
+        BpdAppMessage msg = new BpdAppMessage();
+        when(bpdDAO.uploadMessage(msg)).thenReturn("success");
+        Response response = appService.submitMessage(msg);
+        assertNotNull(response);
+        assertEquals(200, response.getStatus());
+        assertEquals("success", response.getEntity());
+
+    }
+
+    @Test
+    public void testGetAttachmentById() throws SQLException {
+        Response response = Response.ok().build();
+        when(bpdDAO.getAttachment(1)).thenReturn(response);
+        try {
+            response = appService.getAttachmentByID(1);
+        } catch (IOException e) {
+            e.printStackTrace();
+            assert false;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            assert false;
+        }
+        assertNotNull(response);
+        assertEquals(200,response.getStatus());
+    }
 }

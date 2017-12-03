@@ -1,6 +1,7 @@
 package BPD.rest.dao;
 
 import BPD.rest.dao.model.BpdAppMessage;
+import BPD.rest.dao.model.ReturnMessage;
 import BPD.rest.dao.model.User;
 import BPD.rest.dao.model.UserSelection;
 import static org.junit.Assert.*;
@@ -8,14 +9,14 @@ import static org.mockito.Matchers.*;
 import static org.mockito.Mockito.*;
 
 import java.io.ByteArrayInputStream;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.io.InputStream;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import javax.sql.DataSource;
+import javax.ws.rs.core.Response;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -75,6 +76,19 @@ public class BpdDaoImplTest {
         when(resultSet.getString("SUBSCRIPTION_LOC_DESC")).thenReturn("Location 1 Desc");
         when(stmt.executeQuery()).thenReturn(resultSet);
         when(stmt.executeUpdate()).thenReturn(1);
+        when(resultSet.getInt("PRIMARY_SUB_LOCATION_ID")).thenReturn(1);
+        when(resultSet.getInt("SECONDARY_SUB_LOCATION_ID")).thenReturn(1);
+        when(resultSet.getInt("USER_ID")).thenReturn(1);
+        when(resultSet.getString("Message")).thenReturn("Hi There");
+        when(resultSet.getDate("DATE_CREATED")).thenReturn(new Date(System.currentTimeMillis()));
+        when(resultSet.getString("TIME_MESSAGE_CREATED")).thenReturn("2017-11-19");
+        when(resultSet.getString("MESSAGE_TYPE_ID")).thenReturn("Intelligence");
+        when(resultSet.getInt("ATTACHMENT_ID")).thenReturn(1);
+        when(resultSet.getString("blob_type")).thenReturn("image");
+        Class clazz = BpdDaoImplTest.class;
+        InputStream inputStream = clazz.getResourceAsStream("/test.png");
+        when(resultSet.getBinaryStream("blob")).thenReturn(inputStream);
+        when(resultSet.getDate("date_created")).thenReturn(new Date(System.currentTimeMillis()));
     }
 
     @Test
@@ -123,5 +137,28 @@ public class BpdDaoImplTest {
         bpdDao.uploadAttatchment(new ByteArrayInputStream("test data".getBytes()), "1");
         assert true;
     }
+
+    @Test
+    public void getUserMessages(){
+        BpdDaoImpl bpdDao = new BpdDaoImpl();
+        bpdDao.setDataSource(dataSource);
+        ArrayList<ReturnMessage> messages = bpdDao.getUserMessages(1);
+        assert messages != null;
+    }
+
+    @Test
+    public void getAttachment(){
+        BpdDaoImpl bpdDao = new BpdDaoImpl();
+        bpdDao.setDataSource(dataSource);
+        try {
+            Response response = bpdDao.getAttachment(1);
+            assert response != null;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            assert false;
+        }
+
+    }
+
 
 }
